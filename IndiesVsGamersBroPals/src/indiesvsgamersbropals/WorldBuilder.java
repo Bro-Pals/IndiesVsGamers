@@ -12,6 +12,7 @@ import bropals.lib.simplegame.entity.BaseEntity;
 import bropals.lib.simplegame.entity.GameWorld;
 import bropals.lib.simplegame.entity.block.TexturedBlock;
 import bropals.lib.simplegame.state.GameState;
+import indiesvsgamersbropals.entity.SwordEntityFactory;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -150,6 +151,7 @@ public class WorldBuilder {
     public void spawnEnemiesForQuest(File questFile, EnemyManager manager) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(questFile));
+            SwordEntityFactory factory = new SwordEntityFactory();
             
             String input = "";
             while ((input = reader.readLine()) != null) {
@@ -167,6 +169,11 @@ public class WorldBuilder {
                     
                     // use the factory to make a new enemy
                     // add it to the enemy manager
+                    if (enemyType.equals("GUARD")) {
+                        // the parent is added in later when the player actually enters into the 
+                        // scene and they're added to the world
+                        manager.saveEnemy(sceneX, sceneY, factory.makeGuardEnemy(null));
+                    }
                 }
             }
         

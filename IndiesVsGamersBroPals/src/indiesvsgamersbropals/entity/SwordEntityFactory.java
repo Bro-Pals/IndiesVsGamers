@@ -24,4 +24,11 @@ public class SwordEntityFactory {
         SwordEntityComponent[] sword = {new SwordEntityComponent(50, 20, 30, 10, true)};
         return new SwordEntity(body, sword);
     }
+    
+    public SwordEntity makeGuardEnemy(GameWorld parent) {
+        // TODO actually amke this make the proper enemy. THIS IS PLACEHOLDER
+        SwordEntityComponent body = new SwordEntityComponent(0, 0, 50, 50,false);
+        SwordEntityComponent[] sword = {new SwordEntityComponent(50, 20, 30, 10, true)};
+        return new SwordEntity(body, sword);
+    }
 }
