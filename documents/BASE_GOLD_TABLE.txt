@@ -1,0 +1,15 @@
+Table of Base Gold Values by Enemy
+
+Enemy       |       Gold
+------------------------------
+ROUGE       | 100 + (Quest*15)
+KNIGHT      | 100 + (Quest*15)
+BLOB        | 100 + (Quest*15)
+WHITE_GHOST |      1000
+HATCHET     |      2600
+BOAR        |      4600
+WOLF        |      7000
+MAID        |      9800
+COOK        |     13,000
+TRFYING_MAN |     16,600
+BOTTLE_SPRT |     20,600
