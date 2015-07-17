@@ -20,16 +20,19 @@ import java.io.File;
  */
 public class PlayState extends GameState {
 
-    private final String WORLD_FILE_PATH = "data/world/test/text";
+    private final String WORLD_FILE_PATH = "data/world/test.txt";
     
     private SwordEntity player;
     private GameWorld<BaseEntity> world;
+    private EnemyManager enemyManager;
     private WorldBuilder builder;
     private long gameTime;
     private boolean w, a, s, d;
+    private int currentSceneX, currentSceneY;
     
     @Override
     public void update(int i) {
+        // update the player
         if (w) {
             player.getDirection().setY(-1); // up
         }
@@ -50,6 +53,7 @@ public class PlayState extends GameState {
              player.getDirection().setX(0); // stop left or right
         }
         
+        // update the entities
         for (BaseEntity ent : world.getEntities()) {
             ent.update(i);
         }
@@ -63,10 +67,8 @@ public class PlayState extends GameState {
     public void onEnter() {
         builder = new WorldBuilder(new File(WORLD_FILE_PATH));
         // the spawn scene
-        world = builder.buildWorld(this, builder.getSpawnSceneX(), builder.getSpawnSceneY());
-        
+        loadScene(builder.getSpawnSceneX(), builder.getSpawnSceneY());
         if (world != null) {
-
             SwordEntityFactory factory = new SwordEntityFactory();
             player = factory.makePlayer(world);
             player.setX(builder.getSpawnPosX());
@@ -96,16 +98,16 @@ public class PlayState extends GameState {
             if (bln) {
                 switch (i) {
                     case KeyCode.KEY_W:
-                        
+                        w=bln;
                         break;
                     case KeyCode.KEY_A:
-                        player.getDirection().setX(-1); // left
+                        a=bln;
                         break;
                     case KeyCode.KEY_S:
-                        player.getDirection()
+                        s=bln;
                         break;
                     case KeyCode.KEY_D:
-                        player.getDirection().setX(1); // right
+                        d = bln;
                         break;
                 }
             }
@@ -116,6 +118,18 @@ public class PlayState extends GameState {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         
+    }
+    
+    private void loadScene(int posX, int posY) {
+        GameWorld lastWorld = world;
+        world = builder.buildWorld(this, posX, posY);
+        if (world != null) {
+            currentSceneX = posX;
+            currentSceneY = posY;
+        } else {
+            // restore the old world without deleting
+            world = lastWorld;
+        }
     }
     
 }

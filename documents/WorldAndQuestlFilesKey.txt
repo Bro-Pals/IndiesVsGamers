@@ -1,0 +1,54 @@
+as of 7/17 at 10:34am
+
+'Scene' and 'Screen' are the same things
+
+----------------------World files:------------------------
+
+	Header tags:
+
+	ROW <int row>
+		-how many rows wide the world will be
+
+	COL <int col>
+		- how many columns high the world will be
+
+	PLAYER_SPAWN <int sceneX> <int sceneY> <int x> <int y>
+		- the scene and the location on the scene the player spawns
+
+	
+--------------Actual world tags for the world file:---------------------
+	
+	SCENE <int x> <int y>
+		-indicate that you're starting to define a scene. When there is already a scene being
+			defined and you put down another SCENE tag, then the laste scene will be 
+			done being defined
+
+	BLOCK <int x> <int y> <int width> <int height> 
+			[<I> <String ImageKey> | 
+			 <A> <String ImageKey> <int spriteWidth> <int spriteHeight> intdelay>]
+		-Creates a new TexturedBlock in the world with an image. The first two parameters give the scene the
+			block will show up in. The next two is the x and y position and the width and height
+			 of the block when one is on the screen. Finally, either an Image or an animation is defined.
+
+	BACKGROUND <String imageKey>
+		- Specify what background to draw for that scene. 
+
+-------------Actual quest file tags for QUEST files-------------------
+
+	SPAWN <String enemyType> <sceneX> <sceneY> <x> <y>
+		-spawn an enemy at the given scene location and at the given position.
+		-Enemy types can be one of the following:
+			-GUARD
+			-BLOB
+			-KNIGHT_D (knight facing down)
+			-KNIGHT_U (knight facing up)
+			-ROUGE
+		-Bosses
+			-WHITE_GHOST
+			-HATCHET
+			-BOAR
+			-WOLF
+			-MAID
+			-COOK
+			-TRFYING_MAN
+			-BOTTLE_SPRT
