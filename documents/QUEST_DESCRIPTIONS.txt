@@ -1,0 +1,54 @@
+White Ghost
+-Pops to random points of the area in fixed time increments
+-If you stand in front of him, he spooks you after a delay,
+ killing you instantly
+
+Wolf
+-Disguised as a human
+-Turns slowly; barks a lot; eats people
+-When he is eating a human, he stops for 5 seconds while devouring
+-Charges the player after they walk from the disguised human
+-Explodes into 6 goats after death
+
+Wild Boar
+-Big
+-Charges the player: stops when hitting an obstacle
+-Scraps its hoofs against the ground before charging
+-Kills the player when charging
+-Can attack when it is knocked out from hitting an obstacle
+
+Handless Maid
+-Found in garden
+-Has two forms: evil and good.
+-Changes forms in fixed time increments
+-When evil, throws fireballs that instantly kill you
+-When good, shoots pears in a plus pattern around her
+-Can cut pears with your sword
+-Pears kill you
+
+Killer hatchet
+-Makes bell sounds
+-Throws itself at fixed paths (Pattern: defined by designer)
+-Caskets of beer roll in fixed patterns
+-Found in the wine cellar
+-Alice appears after killing the hatchet
+
+Terrifying Man
+-Is terrifying
+-Stone enemies spawn in doors at either end of the battle area
+-Collect pearls that spawn on the ground to make man weep
+-Can attack man while weeping
+-Man teleports away if not weeping
+
+Cook
+-Throws butcher knifes at the player
+-Turns into a fire breathing poodles when the player hits the cook
+-In the King's castle
+
+Spirit in the Bottle
+-In woods
+-Break a bottle to initiate the fight
+-Spirit tries to choke player: player needs to spam movement keys
+ in order to escape
+-Spirit scrambles around while not choking for the player to attack
+-Evil tree walls surround battle zone after the bottle is broken
