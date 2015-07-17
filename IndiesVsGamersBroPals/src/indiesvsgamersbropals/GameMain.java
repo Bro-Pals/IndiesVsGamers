@@ -5,6 +5,11 @@
  */
 package indiesvsgamersbropals;
 
+import bropals.lib.simplegame.AWTGameWindow;
+import bropals.lib.simplegame.GameStateRunner;
+import bropals.lib.simplegame.io.AssetManager;
+import java.io.File;
+
 /**
  *
  * @author Pants
@@ -15,7 +20,11 @@ public class GameMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        AssetManager manager = new AssetManager(new File("assets"), true);
+        GameStateRunner runner = new GameStateRunner(new AWTGameWindow("Indies vs Gamers", 800, 600, false), 
+                manager);
+        runner.setState(new PlayState());
+        runner.loop();
     }
     
 }
