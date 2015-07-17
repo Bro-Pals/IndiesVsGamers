@@ -24,6 +24,7 @@ public class PlayState extends GameState {
     
     private SwordEntity player;
     private GameWorld<BaseEntity> world;
+    private EnemyManager enemyManager;
     private WorldBuilder builder;
     private long gameTime;
     private boolean w, a, s, d;
