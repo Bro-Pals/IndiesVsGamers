@@ -6,10 +6,13 @@
 
 package indiesvsgamersbropals;
 
+import bropals.lib.simplegame.animation.Animation;
+import bropals.lib.simplegame.animation.Track;
 import bropals.lib.simplegame.entity.BaseEntity;
 import bropals.lib.simplegame.entity.GameWorld;
 import bropals.lib.simplegame.entity.block.TexturedBlock;
 import bropals.lib.simplegame.state.GameState;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,6 +32,7 @@ public class WorldBuilder {
     private int worldWidth; // how many scenes wide the world is
     private int worldHeight; // how many scenes high the world is
     private int spawnSceneX, spawnSceneY, spawnPosX, spawnPosY;
+    private BufferedImage lastBackgroundImage;
     
     public WorldBuilder(File worldFile) {
         file = worldFile;
@@ -98,22 +102,29 @@ public class WorldBuilder {
                         return world;
                     } else if (input.startsWith("BLOCK")) {
                         String[] tokens = input.split(" ");
-                        int sceneX = Integer.parseInt(tokens[1]);
-                        int sceneY = Integer.parseInt(tokens[2]);
-                        int x = Integer.parseInt(tokens[3]);
-                        int y = Integer.parseInt(tokens[4]);
-                        int width = Integer.parseInt(tokens[5]);
-                        int height = Integer.parseInt(tokens[6]);
+                        int x = Integer.parseInt(tokens[1]);
+                        int y = Integer.parseInt(tokens[2]);
+                        int width = Integer.parseInt(tokens[3]);
+                        int height = Integer.parseInt(tokens[4]);
                         TexturedBlock block = new TexturedBlock(world, x, y, width, height);
                         world.addEntity(block);
-                        if (tokens[6].equals("I")) {
-
-                        } else if (tokens[6].equals("A")) {
-
+                        if (tokens[5].equals("I")) {
+                            block.setImage(stateToBuildFor.getAssetManager().getImage(tokens[6]));
+                        } else if (tokens[5].equals("A")) {
+                            Animation anim = new Animation();
+                            anim.addTrack(new Track(
+                                    stateToBuildFor.getAssetManager().getImage(tokens[6]), 
+                                    Integer.parseInt(tokens[7]), 
+                                    Integer.parseInt(tokens[8]), 
+                                    Integer.parseInt(tokens[9])));
+                            block.setAnimation(new Animation());
                         } else {
                             System.err.println("Did not specify if it was an image or an animation");
                             throw new Exception("Need I or A by line " + line);
                         }
+                    } else if (input.startsWith("BACKGROUND")) {
+                        String[] tokens = input.split(" ");
+                        lastBackgroundImage = stateToBuildFor.getAssetManager().getImage(tokens[1]);
                     }
                 } else {
                     // find the scene you're looking for
@@ -136,7 +147,7 @@ public class WorldBuilder {
         return null;
     }
 
-    public void spawnEnemiesForQuest(File questFile) {
+    public void spawnEnemiesForQuest(File questFile, EnemyManager manager) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(questFile));
             
@@ -147,7 +158,15 @@ public class WorldBuilder {
                 }
                 
                 if (input.startsWith("SPAWN")) {
+                    String[] tokens = input.split(" ");
+                    String enemyType = tokens[1];
+                    int sceneX = Integer.parseInt(tokens[2]);
+                    int sceneY = Integer.parseInt(tokens[3]);
+                    int x = Integer.parseInt(tokens[4]);
+                    int y = Integer.parseInt(tokens[5]);
                     
+                    // use the factory to make a new enemy
+                    // add it to the enemy manager
                 }
             }
         
@@ -173,6 +192,10 @@ public class WorldBuilder {
 
     public int getSpawnPosX() {
         return spawnPosX;
+    }
+
+    public BufferedImage getLastBackgroundImage() {
+        return lastBackgroundImage;
     }
     
     

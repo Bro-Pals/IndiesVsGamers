@@ -28,6 +28,7 @@ public class PlayState extends GameState {
     private WorldBuilder builder;
     private long gameTime;
     private boolean w, a, s, d;
+    private int currentSceneX, currentSceneY;
     
     @Override
     public void update(int i) {
@@ -66,10 +67,8 @@ public class PlayState extends GameState {
     public void onEnter() {
         builder = new WorldBuilder(new File(WORLD_FILE_PATH));
         // the spawn scene
-        world = builder.buildWorld(this, builder.getSpawnSceneX(), builder.getSpawnSceneY());
-        
+        loadScene(builder.getSpawnSceneX(), builder.getSpawnSceneY());
         if (world != null) {
-
             SwordEntityFactory factory = new SwordEntityFactory();
             player = factory.makePlayer(world);
             player.setX(builder.getSpawnPosX());
@@ -119,6 +118,18 @@ public class PlayState extends GameState {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         
+    }
+    
+    private void loadScene(int posX, int posY) {
+        GameWorld lastWorld = world;
+        world = builder.buildWorld(this, posX, posY);
+        if (world != null) {
+            currentSceneX = posX;
+            currentSceneY = posY;
+        } else {
+            // restore the old world without deleting
+            world = lastWorld;
+        }
     }
     
 }
