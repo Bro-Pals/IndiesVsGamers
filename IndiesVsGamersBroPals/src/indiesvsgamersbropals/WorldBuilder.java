@@ -47,6 +47,7 @@ public class WorldBuilder {
                 if (input.length() == 0) {
                    continue;
                 }
+                System.out.println("Reading line: " + input);
                 
                 if (input.startsWith("ROW")) {
                     String[] tokens = input.split(" ");
@@ -80,6 +81,9 @@ public class WorldBuilder {
      * @return The scene, or null if there was an error with loading it
      */
     public GameWorld<BaseEntity> buildWorld(GameState stateToBuildFor, int posX, int posY) {
+        System.out.println("world width: " + worldWidth);
+        System.out.println("world height: " + worldHeight);
+        System.out.println("Scene position: " + posX + ", " + posY);
         if (posX < 0 || posX >= worldWidth || posY < 0 || posY >= worldHeight) {
             System.err.println("The scene location is outside of the given bounds");
             return null;
@@ -98,6 +102,7 @@ public class WorldBuilder {
                 }
                 
                 if (onScene) {
+                    System.out.println("On a scene");
                     if (input.startsWith("SCENE")) {
                         // if you were already on a scene, then finish it
                         return world;

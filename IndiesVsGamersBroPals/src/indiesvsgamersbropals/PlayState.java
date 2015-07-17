@@ -12,6 +12,8 @@ import bropals.lib.simplegame.entity.GameWorld;
 import bropals.lib.simplegame.state.GameState;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.io.File;
 
 /**
@@ -20,7 +22,7 @@ import java.io.File;
  */
 public class PlayState extends GameState {
 
-    private final String WORLD_FILE_PATH = "data/world/test.txt";
+    private final String WORLD_FILE_PATH = "assets/data/world/test.txt";
     
     private SwordEntity player;
     private GameWorld<BaseEntity> world;
@@ -32,6 +34,10 @@ public class PlayState extends GameState {
     
     @Override
     public void update(int i) {
+        // don't continue if the player or the world is not yet there.
+        if (player == null || world == null)
+            return;
+        
         // update the player
         if (w) {
             player.getDirection().setY(-1); // up
@@ -61,6 +67,23 @@ public class PlayState extends GameState {
 
     @Override
     public void render(Object o) {
+        Graphics2D g2 = (Graphics2D) o;
+        
+        if (player== null || world == null) {
+            g2.drawString("Loading... ", 100, 100);
+            return;
+        }
+        if (builder.getLastBackgroundImage() == null) {
+            g2.setColor(Color.WHITE);
+            g2.fillRect(0, 0, 800, 600);
+        } else {
+            g2.drawImage(builder.getLastBackgroundImage(), 0, 0, null);
+        }
+        
+        g2.setColor(Color.red);
+        for (BaseEntity ent : world.getEntities()) {
+            ent.render(o);
+        }
     }
 
     @Override
@@ -69,11 +92,12 @@ public class PlayState extends GameState {
         // the spawn scene
         loadScene(builder.getSpawnSceneX(), builder.getSpawnSceneY());
         if (world != null) {
+            System.out.println("world was made - adding player");
             SwordEntityFactory factory = new SwordEntityFactory();
             player = factory.makePlayer(world);
             player.setX(builder.getSpawnPosX());
             player.setY(builder.getSpawnPosY());
-
+            
             // create controllers
             addController(new PlayerControls(player));
         } else {
@@ -115,7 +139,6 @@ public class PlayState extends GameState {
 
         @Override
         public void mouse(int i, int i1, int i2, boolean bln) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         
     }

@@ -48,6 +48,7 @@ public class SwordEntity extends BaseEntity {
         this.health = 1;
         this.speed = 10;
         this.damaged = false;
+        direction = new Vector2D();
     }
 
     public void setSpeed(float speed) {
