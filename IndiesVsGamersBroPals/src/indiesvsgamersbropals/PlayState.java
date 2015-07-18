@@ -9,6 +9,7 @@ import bropals.lib.simplegame.KeyCode;
 import bropals.lib.simplegame.controls.Controller;
 import bropals.lib.simplegame.entity.BaseEntity;
 import bropals.lib.simplegame.entity.GameWorld;
+import bropals.lib.simplegame.math.Vector2D;
 import bropals.lib.simplegame.state.GameState;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
@@ -127,8 +128,21 @@ public class PlayState extends GameState {
             ent.update(i);
             // remove enemies from the enemy manager as they die
             if (ent.getParent() == null && ent != player && ent instanceof SwordEntity) {
-                enemyManager.removeEnemy(currentSceneX, currentSceneY, (SwordEntity)ent);
-                world.getEntities().remove(ent);
+                SwordEntity enemy = (SwordEntity)ent;
+                enemyManager.removeEnemy(currentSceneX, currentSceneY, enemy);
+                world.getEntities().remove(enemy);
+                gold += enemy.getGoldAmount(gameTime);
+                
+                // if you killed the goal enemy..
+                if (enemy == builder.getGoalEnemy()) {
+                    System.out.println("Completed the quest!");
+                    questOn++;
+                    if (questOn < QUESTS_FILES.length) {
+                        loadQuest(questOn);
+                    } else {
+                        System.out.println("NO MORE QUESTS TO COMPLETE");
+                    }
+                }
             }
         }
     }
@@ -157,6 +171,26 @@ public class PlayState extends GameState {
             }
             
             ent.render(o);
+        }
+        
+        // draw the arrow pointing towards the quest goal
+        int dirX = builder.getGoalSceneX() - currentSceneX;
+        int dirY = builder.getGoalSceneY() - currentSceneY;
+        
+        // if you aren't at the goal scene draw the arrow
+        if (dirX != 0 && dirY != 0 && builder.getGoalSceneX() != -1 && 
+                builder.getGoalSceneY() != -1) {
+            Vector2D goalDirection = new Vector2D(dirX, dirY);
+            goalDirection.normalizeLocal();
+            double angle = Math.acos(goalDirection.getX());
+            if (dirY < 0) {
+                angle *= -1; //reverse angle direction
+            }
+            float distance = 100;
+            float arrowX = player.getCenterX() + (goalDirection.getX() * distance);
+            float arrowY = player.getCenterY() + (goalDirection.getY() * distance);
+            
+            g2.fillOval((int)arrowX - 10, (int)arrowY - 10, 20, 20);
         }
         
         g2.setFont(new Font("Arial", Font.PLAIN, 32));

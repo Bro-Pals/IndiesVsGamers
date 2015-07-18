@@ -37,6 +37,7 @@ public class WorldBuilder {
     private int worldHeight; // how many scenes high the world is
     private int spawnSceneX, spawnSceneY, spawnPosX, spawnPosY, goalSceneX, goalSceneY;
     private BufferedImage lastBackgroundImage;
+    private SwordEntity goalEnemy;
     
     public WorldBuilder(File worldFile) {
         file = worldFile;
@@ -173,6 +174,10 @@ public class WorldBuilder {
             BufferedReader reader = new BufferedReader(new FileReader(questFile));
             SwordEntityFactory factory = new SwordEntityFactory(assetManager);
             
+            // delete any previous scene goal
+            goalSceneX = -1;
+            goalSceneY = -1;
+            
             String input = "";
             while ((input = reader.readLine()) != null) {
                 if (input.length() == 0) {
@@ -187,21 +192,25 @@ public class WorldBuilder {
                     int sceneX = Integer.parseInt(tokens[3]);
                     int x = Integer.parseInt(tokens[4]);
                     int y = Integer.parseInt(tokens[5]);
-                    if (input.startsWith("SPAWN_GOAL")) {
-                        goalSceneX = sceneX;
-                        goalSceneY = sceneY;
-                    }
                     System.out.println("position: " + x + ", " + y);
                     // use the factory to make a new enemy
                     // add it to the enemy manager
+                    SwordEntity entity = null;
                     if (enemyType.equals("GUARD")) {
                         // the parent is added in later when the player actually enters into the 
                         // scene and they're added to the world
-                        SwordEntity entity = factory.makeGuardEnemy();
+                        entity = factory.makeGuardEnemy();
                         entity.setX(x);
                         entity.setY(y);
                         manager.saveEnemy(sceneX, sceneY, entity);
                         System.out.println("added a guard to the scene");
+                    }
+                    
+                    // set up the goal
+                    if (entity != null && input.startsWith("SPAWN_GOAL")) {
+                        goalSceneX = sceneX;
+                        goalSceneY = sceneY;
+                        goalEnemy = entity;
                     }
                 }
             }
@@ -231,6 +240,20 @@ public class WorldBuilder {
         return spawnPosX;
     }
 
+    public int getGoalSceneX() {
+        return goalSceneX;
+    }
+
+    public int getGoalSceneY() {
+        return goalSceneY;
+    }
+
+    public SwordEntity getGoalEnemy() {
+        return goalEnemy;
+    }
+
+    
+    
     public BufferedImage getLastBackgroundImage() {
         return lastBackgroundImage;
     }

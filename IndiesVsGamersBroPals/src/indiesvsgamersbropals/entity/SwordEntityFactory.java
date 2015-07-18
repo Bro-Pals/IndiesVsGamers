@@ -11,6 +11,9 @@ import bropals.lib.simplegame.animation.Track;
 import bropals.lib.simplegame.entity.GameWorld;
 import bropals.lib.simplegame.io.AssetManager;
 import indiesvsgamersbropals.entity.enem.GuardEntity;
+import indiesvsgamersbropals.entity.enem.KnightDownEntity;
+import indiesvsgamersbropals.entity.enem.KnightUpEntity;
+import indiesvsgamersbropals.entity.enem.RogueEntity;
 import java.awt.image.BufferedImage;
 
 /**
@@ -55,6 +58,7 @@ public class SwordEntityFactory {
         SwordEntityComponent[] sword = {new SwordEntityComponent(-45, 18, 45, 15, true)};
         sword[0].setImage(manager.getImage("guardWeapon"));
         GuardEntity enemy = new GuardEntity(body, sword);
+        enemy.setGoldMod(15);
         return enemy;
     }
     
@@ -69,7 +73,8 @@ public class SwordEntityFactory {
         body.setAnimation(anim);
         SwordEntityComponent[] sword = {new SwordEntityComponent(8, 50, 15, 30, true)};
         sword[0].setImage(manager.getImage("knightDownWeapon"));
-        GuardEntity enemy = new GuardEntity(body, sword);
+        KnightDownEntity enemy = new KnightDownEntity(body, sword);
+        enemy.setGoldMod(15);
         return enemy;
     }
     
@@ -84,7 +89,8 @@ public class SwordEntityFactory {
         body.setAnimation(anim);
         SwordEntityComponent[] sword = {new SwordEntityComponent(8, -30, 15, 30, true)};
         sword[0].setImage(manager.getImage("knightUpWeapon"));
-        GuardEntity enemy = new GuardEntity(body, sword);
+        KnightUpEntity enemy = new KnightUpEntity(body, sword);
+        enemy.setGoldMod(15);
         return enemy;
     }
     
@@ -99,7 +105,8 @@ public class SwordEntityFactory {
         body.setAnimation(anim);
         SwordEntityComponent[] sword = {new SwordEntityComponent(42, 15, 30, 15, true)};
         sword[0].setImage(manager.getImage("rogueWeapon"));
-        GuardEntity enemy = new GuardEntity(body, sword);
+        RogueEntity enemy = new RogueEntity(body, sword);
+        enemy.setGoldMod(15);
         return enemy;
     }
 }
