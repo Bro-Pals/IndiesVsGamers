@@ -69,14 +69,24 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
     public void update(int i) {
         if (knockbackTime != null) {
             knockbackTime.update();
+            System.out.println("udpating the knockback");
         }
         
         // move the main component
         parts[0].getVelocity().setValues(direction.getX(), direction.getY());
         parts[0].getVelocity().scaleLocal(speed);
         
-        if (parts[0].getParent() != null)
+        System.out.println("knockbackDirection: " + knockbackDirection);
+        if (knockbackDirection != null) {
+            System.out.println("WE ARE ADDING KNOCKBACK");
+            parts[0].getVelocity().setValues(
+                    parts[0].getVelocity().getX() + knockbackDirection.getX(),
+                    parts[0].getVelocity().getY() + knockbackDirection.getY());
+        }
+        
+        if (parts[0].getParent() != null) {
             parts[0].update(i);
+        }
             
         for (int k=1; k<parts.length; k++) {
             parts[k].checkCollisions();
@@ -152,12 +162,14 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
     public void knockback(Vector2D direction, int duration) {
         knockbackDirection = direction;
         knockbackTime = new Counter(duration, this);
+        knockbackTime.reset();
     }
 
     @Override
     public void countFinished() {
         // stop being knocked back
         knockbackDirection = null;
+        knockbackTime = null;
     }
     
     

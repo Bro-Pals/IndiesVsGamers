@@ -8,6 +8,7 @@ package indiesvsgamersbropals.entity;
 
 import bropals.lib.simplegame.entity.block.BlockEntity;
 import bropals.lib.simplegame.entity.block.TexturedBlock;
+import bropals.lib.simplegame.math.Vector2D;
 
 /**
  * A piece of the SwordEntity, either the body or the sword
@@ -45,13 +46,22 @@ public class SwordEntityComponent extends TexturedBlock {
     public void collideWith(BlockEntity other) {
         if (other instanceof SwordEntityComponent) {
             SwordEntityComponent otherComp = (SwordEntityComponent)other;
-            System.out.println("hit another");
+            //System.out.println("hit another");
             if (otherComp.isIsSword()) {
                 if (this.isSword) {
                     // make knockback
-                    
+                    System.out.println("KNOCKBACK");
+                    float diffX = otherComp.getCenterX() - getCenterX();
+                    float diffY = otherComp.getCenterY() - getCenterY();
+                    Vector2D knockbackVector = new Vector2D(diffX, diffY);
+                    knockbackVector.normalizeLocal();
+                    knockbackVector.scaleLocal(20);
+                    int knockbackDuration = 700;
+                    getParentEntity().knockback(knockbackVector, knockbackDuration);
+                    knockbackVector.scaleLocal(-1); // opposite direction
+                    otherComp.getParentEntity().knockback(knockbackVector, knockbackDuration);
                 } else {
-                    parentEntity.damage(1); // swords do 1 damage to body
+                    parentEntity.damage(damage); // swords do 1 damage to body
                 }
             }
         } else if (other instanceof Projectile) {
@@ -63,10 +73,8 @@ public class SwordEntityComponent extends TexturedBlock {
 
     @Override
     public boolean handleCollide(BlockEntity other) {
-        System.out.println("Handling collision");
         if (other instanceof SwordEntityComponent) {
             if (((SwordEntityComponent)other).getParentEntity() == getParentEntity()) {
-                System.out.println("Collided with another component of the same parent sword entity");
                 return false;
             }
         }

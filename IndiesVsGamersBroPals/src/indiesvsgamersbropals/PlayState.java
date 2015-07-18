@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 public class PlayState extends GameState {
 
-    private final String WORLD_FILE_PATH = "assets/data/world/test.txt";
+    private final String WORLD_FILE_PATH = "assets/data/world/world.txt";
     private final String[] QUESTS_FILES = {
         "assets/data/quest/test.txt"
     };
@@ -102,7 +102,7 @@ public class PlayState extends GameState {
         
         // update the entities
         for (BaseEntity ent : world.getEntities()) {
-            if (ent.getParent() != world) {
+            if (ent.getParent() != world || ent.getParent() == null) {
                 continue;
             }
             
