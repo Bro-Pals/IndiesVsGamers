@@ -31,6 +31,7 @@ public class SwordEntityComponent extends TexturedBlock {
             float width, float height, boolean isSword) {
         super(null, x, y, width, height);
         setCollidable(true);
+        setAnchored(false);
         this.isSword = isSword;
         if (isSword) {
             damage = 1;
@@ -41,6 +42,7 @@ public class SwordEntityComponent extends TexturedBlock {
     public void collideWith(BlockEntity other) {
         if (other instanceof SwordEntityComponent) {
             SwordEntityComponent otherComp = (SwordEntityComponent)other;
+            System.out.println("hit another");
             if (otherComp.isIsSword()) {
                 parentEntity.damage(1); // swords do 1 damage to parent
             }
@@ -51,6 +53,30 @@ public class SwordEntityComponent extends TexturedBlock {
         }
     }
 
+    @Override
+    public boolean handleCollide(BlockEntity other) {
+        //System.out.println("Handling collision");
+        if (other instanceof SwordEntityComponent) {
+            if (((SwordEntityComponent)other).getParentEntity() == getParentEntity()) {
+                System.out.println("Collided with another component of the same parent sword entity");
+                return false;
+            }
+        }
+        return super.handleCollide(other); 
+    }
+
+    /**
+     * The sword entity that this component is a piece of.
+     * @return See desc.
+     */
+    public SwordEntity getParentEntity() {
+        return parentEntity;
+    }
+
+    public void setParentEntity(SwordEntity parentEntity) {
+        this.parentEntity = parentEntity;
+    }
+    
     public boolean isIsSword() {
         return isSword;
     }

@@ -12,6 +12,7 @@ import bropals.lib.simplegame.entity.BaseEntity;
 import bropals.lib.simplegame.entity.GameWorld;
 import bropals.lib.simplegame.entity.block.TexturedBlock;
 import bropals.lib.simplegame.state.GameState;
+import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -47,7 +48,6 @@ public class WorldBuilder {
                 if (input.length() == 0) {
                    continue;
                 }
-                System.out.println("Reading line: " + input);
                 
                 if (input.startsWith("ROW")) {
                     String[] tokens = input.split(" ");
@@ -100,9 +100,9 @@ public class WorldBuilder {
                 if (input.length() == 0) {
                    continue;
                 }
-                
+                System.out.println("Reading line: " + input);
+
                 if (onScene) {
-                    System.out.println("On a scene");
                     if (input.startsWith("SCENE")) {
                         // if you were already on a scene, then finish it
                         return world;
@@ -114,6 +114,8 @@ public class WorldBuilder {
                         int height = Integer.parseInt(tokens[4]);
                         TexturedBlock block = new TexturedBlock(world, x, y, width, height);
                         world.addEntity(block);
+                        block.setParent(world);
+                        block.setAnchored(true);
                         if (tokens[5].equals("I")) {
                             block.setImage(stateToBuildFor.getAssetManager().getImage(tokens[6]));
                         } else if (tokens[5].equals("A")) {
@@ -149,6 +151,7 @@ public class WorldBuilder {
             System.err.println("Could not find the file " + file);
         } catch(Exception e) {
             System.err.println(e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -163,6 +166,7 @@ public class WorldBuilder {
                 if (input.length() == 0) {
                    continue;
                 }
+                System.out.println("reading: " + input);
                 
                 if (input.startsWith("SPAWN")) {
                     String[] tokens = input.split(" ");
@@ -177,16 +181,21 @@ public class WorldBuilder {
                     if (enemyType.equals("GUARD")) {
                         // the parent is added in later when the player actually enters into the 
                         // scene and they're added to the world
-                        manager.saveEnemy(sceneX, sceneY, factory.makeGuardEnemy(null));
+                        SwordEntity entity = factory.makeGuardEnemy();
+                        entity.setX(x);
+                        entity.setY(y);
+                        manager.saveEnemy(sceneX, sceneY, factory.makeGuardEnemy());
+                        System.out.println("added a guard to the scene");
                     }
                 }
             }
         
             reader.close();
         } catch(FileNotFoundException fnfe) {
-            System.err.println("Could not find the file " + file);
+            System.err.println("Could not find the file " + questFile);
         } catch(Exception e) {
             System.err.println(e);
+            e.printStackTrace();
         }
     }
     

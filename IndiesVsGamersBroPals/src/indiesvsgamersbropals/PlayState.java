@@ -15,6 +15,7 @@ import indiesvsgamersbropals.entity.SwordEntityFactory;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * The main play state
@@ -23,6 +24,10 @@ import java.io.File;
 public class PlayState extends GameState {
 
     private final String WORLD_FILE_PATH = "assets/data/world/test.txt";
+    private final String[] QUESTS_FILES = {
+        "assets/data/quest/test.txt"
+    };
+    private int questOn;
     
     private SwordEntity player;
     private GameWorld<BaseEntity> world;
@@ -38,10 +43,12 @@ public class PlayState extends GameState {
         if (player == null || world == null)
             return;
         
+        //System.out.println("update; player direction: " + player.getDirection().getY() + ", " + player.getDirection().getX());
+        //System.out.println("w:" + w + " a:" + a + " s:" + s + " d:" + d);
         // update the player
         if (w) {
             player.getDirection().setY(-1); // up
-        }
+        } 
         if (s) {
             player.getDirection().setY(1); // down
         }
@@ -62,6 +69,11 @@ public class PlayState extends GameState {
         // update the entities
         for (BaseEntity ent : world.getEntities()) {
             ent.update(i);
+            // remove enemies from the enemy manager as they die
+            if (ent.getParent() == null && ent != player && ent instanceof SwordEntity) {
+                enemyManager.removeEnemy(currentSceneX, currentSceneY, (SwordEntity)ent);
+                world.getEntities().remove(ent);
+            }
         }
     }
 
@@ -89,6 +101,9 @@ public class PlayState extends GameState {
     @Override
     public void onEnter() {
         builder = new WorldBuilder(new File(WORLD_FILE_PATH));
+        enemyManager = new EnemyManager();
+        // load the quest before the scene
+        loadQuest(0);
         // the spawn scene
         loadScene(builder.getSpawnSceneX(), builder.getSpawnSceneY());
         if (world != null) {
@@ -97,6 +112,8 @@ public class PlayState extends GameState {
             player = factory.makePlayer(world);
             player.setX(builder.getSpawnPosX());
             player.setY(builder.getSpawnPosY());
+            world.addEntity(player);
+            player.setParent(world);
             
             // create controllers
             addController(new PlayerControls(player));
@@ -119,21 +136,19 @@ public class PlayState extends GameState {
         
         @Override
         public void key(int i, boolean bln) {
-            if (bln) {
-                switch (i) {
-                    case KeyCode.KEY_W:
-                        w=bln;
-                        break;
-                    case KeyCode.KEY_A:
-                        a=bln;
-                        break;
-                    case KeyCode.KEY_S:
-                        s=bln;
-                        break;
-                    case KeyCode.KEY_D:
-                        d = bln;
-                        break;
-                }
+            switch (i) {
+                case KeyCode.KEY_W:
+                    w=bln;
+                    break;
+                case KeyCode.KEY_A:
+                    a=bln;
+                    break;
+                case KeyCode.KEY_S:
+                    s=bln;
+                    break;
+                case KeyCode.KEY_D:
+                    d = bln;
+                    break;
             }
         }
 
@@ -152,7 +167,26 @@ public class PlayState extends GameState {
         } else {
             // restore the old world without deleting
             world = lastWorld;
+            return;
         }
+        // add the enemies to the scene
+        ArrayList<SwordEntity> enemies = enemyManager.getEnemies(posX, posY);
+        for (int i=0; i<enemies.size(); i++) {
+            if (!world.getEntities().contains(enemies.get(i))) {
+                System.out.println("Added an enemy to the scene: "+posX+", "+posY);
+                world.getEntities().add(enemies.get(i));
+                enemies.get(i).setParent(world);
+            }
+        }
+    }
+    
+    /**
+     * Loads the enemies of the given quest
+     * @param questNumber 
+     */
+    private void loadQuest(int questNumber) {
+        questOn = questNumber;
+        builder.spawnEnemiesForQuest(new File(QUESTS_FILES[questOn]), enemyManager);
     }
     
 }
