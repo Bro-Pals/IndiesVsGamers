@@ -63,7 +63,7 @@ BLOCK 160 -60 120 120 I townHouse
 SCENE 2 5
 BACKGROUND townBackground
 BLOCK -60 -75 120 120 I townHouse
-BLOCK 440 2 90 120 120 I townHouse
+BLOCK 440 290 120 120 I townHouse
 SCENE 2 6
 BACKGROUND woodsBackgroundUpDown
 SCENE 2 7
@@ -79,28 +79,57 @@ BACKGROUND woodsBackgroundDownLeftRight
 BLOCK 0 -49 800 89 I castleWallHorizontal
 SCENE 3 3
 BACKGROUND woodsBackgroundUpDownLeftRight
+BLOCK 760 560 89 89 I churchWallRightDown
 SCENE 3 4
+BLOCK 0 560 800 89 I churchWallHorizontal
 BACKGROUND woodsBackground
 SCENE 3 5
 BACKGROUND woodsBackgroundRight
+BLOCK -49 560 89 89 I churchWallLeftDown
 SCENE 3 6
 BACKGROUND woodsBackgroundUpDownLeftRight
+BLOCK 760 560 89 89 I creepyCastleWallRightDown
 SCENE 3 7
 BACKGROUND woodsBackgroundUpLeft
+BLOCK 0 560 800 89 I creepyCastleWallHorizontal
 SCENE 4 0
 BACKGROUND woodsBackgroundUpDownRight
 SCENE 4 1
 BACKGROUND woodsBackgroundRight
 SCENE 4 2
 BACKGROUND woodsBackgroundUp
+SCENE 4 3
+BACKGROUND woodsBackgroundUp
+BLOCK 760 0 89 600 I churchWallVertical
 SCENE 4 4
 BACKGROUND churchBackground
+BLOCK 40 -49 720 89 I churchWallHorizontalShort
+BLOCK -49 40 89 520 I churchWallVerticalShort
+BLOCK 760 40 89 520 I churchWallVerticalShort
+BLOCK 40 560 320 89 I churchWallHorizontalVeryShort
+BLOCK 440 560 320 89 I churchWallHorizontalVeryShort
+BLOCK 760 -49 89 89 I churchWallLeftDown
+BLOCK 760 560 89 89 I churchWallLeftUp
+BLOCK -49 560 89 89 I churchWallUpRight
+BLOCK -49 -49 89 89 I churchWallRightDown
 SCENE 4 5
 BACKGROUND woodsBackground
+BLOCK -49 0 89 600 I churchWallVertical
 SCENE 4 6
 BACKGROUND woodsBackgroundUpDown
+BLOCK 760 -340 89 600 I creepyCastleWallVertical
+BLOCK 760 340 89 600 I creepyCastleWallVertical
 SCENE 4 7
 BACKGROUND creepyCastleBackground
+BLOCK 40 -49 720 89 I creepyCastleWallHorizontalShort
+BLOCK -49 40 89 220 I creepyCastleWallVerticalVeryShort
+BLOCK -49 360 89 220 I creepyCastleWallVerticalVeryShort
+BLOCK 765 40 89 520 I creepyCastleWallVerticalShort
+BLOCK 40 560 720 89 I creepyCastleWallHorizontalShort
+BLOCK 760 -49 89 89 I creepyCastleWallLeftDown
+BLOCK 760 560 89 89 I creepyCastleWallLeftUp
+BLOCK -49 560 89 89 I creepyCastleWallUpRight
+BLOCK -49 -49 89 89 I creepyCastleWallRightDown
 SCENE 5 0
 BACKGROUND woodsBackgroundUp
 SCENE 5 1
@@ -109,11 +138,17 @@ SCENE 5 2
 BACKGROUND woodsBackgroundRight
 SCENE 5 3
 BACKGROUND woodsBackgroundLeft
+BLOCK 760 -49 89 89 I churchWallUpRight
 SCENE 5 4
 BACKGROUND woodsBackgroundUpRight
+BLOCK -440 -49 800 89 I churchWallHorizontal
+BLOCK 440 -49 800 89 I churchWallHorizontal
 SCENE 5 5
 BACKGROUND woodsBackgroundLeftRight
+BLOCK -49 -49 89 89 I churchWallLeftUp
 SCENE 5 6
 BACKGROUND woodsBackgroundUpLeftRight
+BLOCK 760 -49 89 89 I creepyCastleWallUpRight
 SCENE 5 7
 BACKGROUND woodsBackgroundLeft
+BLOCK 0 -49 800 89 I creepyCastleWallHorizontal
