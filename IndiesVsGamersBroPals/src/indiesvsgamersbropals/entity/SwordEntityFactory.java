@@ -57,4 +57,49 @@ public class SwordEntityFactory {
         GuardEntity enemy = new GuardEntity(body, sword);
         return enemy;
     }
+    
+    public SwordEntity makeKnightDownEnemy() {
+        SwordEntityComponent body = new SwordEntityComponent(0, 0, 42, 50 ,false);
+        Animation anim = new Animation();
+        BufferedImage[] frames = (new Track(manager.getImage("knightDown"), 42, 50)).getImages();
+        anim.addTrack(new Track(
+                new BufferedImage[]{frames[0], frames[1], frames[2], frames[1]}));
+        anim.setTrack(0);
+        anim.getTrackOn().setMillisBetweenImages(80);
+        body.setAnimation(anim);
+        SwordEntityComponent[] sword = {new SwordEntityComponent(8, 50, 15, 30, true)};
+        sword[0].setImage(manager.getImage("knightDownWeapon"));
+        GuardEntity enemy = new GuardEntity(body, sword);
+        return enemy;
+    }
+    
+    public SwordEntity makeKnightUpEnemy() {
+        SwordEntityComponent body = new SwordEntityComponent(0, 0, 42, 50 ,false);
+        Animation anim = new Animation();
+        BufferedImage[] frames = (new Track(manager.getImage("knightUp"), 42, 50)).getImages();
+        anim.addTrack(new Track(
+                new BufferedImage[]{frames[0], frames[1], frames[2], frames[1]}));
+        anim.setTrack(0);
+        anim.getTrackOn().setMillisBetweenImages(80);
+        body.setAnimation(anim);
+        SwordEntityComponent[] sword = {new SwordEntityComponent(8, -30, 15, 30, true)};
+        sword[0].setImage(manager.getImage("knightUpWeapon"));
+        GuardEntity enemy = new GuardEntity(body, sword);
+        return enemy;
+    }
+    
+    public SwordEntity makeRogueEnemy() {
+        SwordEntityComponent body = new SwordEntityComponent(0, 0, 42, 50 ,false);
+        Animation anim = new Animation();
+        BufferedImage[] frames = (new Track(manager.getImage("rogue"), 42, 50)).getImages();
+        anim.addTrack(new Track(
+                new BufferedImage[]{frames[0], frames[1], frames[2], frames[1]}));
+        anim.setTrack(0);
+        anim.getTrackOn().setMillisBetweenImages(80);
+        body.setAnimation(anim);
+        SwordEntityComponent[] sword = {new SwordEntityComponent(42, 15, 30, 15, true)};
+        sword[0].setImage(manager.getImage("rogueWeapon"));
+        GuardEntity enemy = new GuardEntity(body, sword);
+        return enemy;
+    }
 }
