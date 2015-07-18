@@ -58,8 +58,8 @@ public class WorldBuilder {
                     worldHeight = Integer.parseInt(tokens[1]);
                 } else if (input.startsWith("PLAYER_SPAWN")){
                     String[] tokens = input.split(" ");
-                    spawnSceneX = Integer.parseInt(tokens[1]);
-                    spawnSceneY = Integer.parseInt(tokens[2]);
+                    spawnSceneY = Integer.parseInt(tokens[1]);
+                    spawnSceneX = Integer.parseInt(tokens[2]);
                     spawnPosX = Integer.parseInt(tokens[3]);
                     spawnPosY = Integer.parseInt(tokens[4]);
                 }
@@ -177,8 +177,8 @@ public class WorldBuilder {
                 if (input.startsWith("SPAWN")) {
                     String[] tokens = input.split(" ");
                     String enemyType = tokens[1];
-                    int sceneX = Integer.parseInt(tokens[2]);
-                    int sceneY = Integer.parseInt(tokens[3]);
+                    int sceneY = Integer.parseInt(tokens[2]);
+                    int sceneX = Integer.parseInt(tokens[3]);
                     int x = Integer.parseInt(tokens[4]);
                     int y = Integer.parseInt(tokens[5]);
                     System.out.println("position: " + x + ", " + y);

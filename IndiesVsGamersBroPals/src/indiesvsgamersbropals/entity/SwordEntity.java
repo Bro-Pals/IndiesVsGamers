@@ -76,7 +76,6 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
         parts[0].getVelocity().setValues(direction.getX(), direction.getY());
         parts[0].getVelocity().scaleLocal(speed);
         
-        System.out.println("knockbackDirection: " + knockbackDirection);
         if (knockbackDirection != null) {
             System.out.println("WE ARE ADDING KNOCKBACK");
             parts[0].getVelocity().setValues(

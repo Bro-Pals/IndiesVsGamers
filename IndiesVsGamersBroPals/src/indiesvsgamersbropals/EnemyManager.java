@@ -36,7 +36,7 @@ public class EnemyManager {
     public void saveEnemy(int sceneX, int sceneY, SwordEntity enemy) {
         String location = getKey(sceneX, sceneY);
         if (enemiesSave.get(location) == null) {
-            enemiesSave.put(location, new ArrayList<>());
+            enemiesSave.put(location, new ArrayList<SwordEntity>());
         }
         enemiesSave.get(location).add(enemy);
     }
@@ -44,7 +44,7 @@ public class EnemyManager {
     public ArrayList<SwordEntity> getEnemies(int sceneX, int sceneY) {
         String location = getKey(sceneX, sceneY);
         if (enemiesSave.get(location) == null) {
-            enemiesSave.put(location, new ArrayList<>());
+            enemiesSave.put(location, new ArrayList<SwordEntity>());
         }
         return enemiesSave.get(location);
     }
