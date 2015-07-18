@@ -78,26 +78,44 @@ public class PlayState extends GameState {
         // check if the player is about to leave the scene and load 
         // a new scene ifneeded
         
+        float padding = 10;
+        
         // left
-        if (player.getX() < -(player.getWidth()/2) - 2 && 
-                builder.sceneInBounds(currentSceneX - 1, currentSceneY)) {
-            loadScene(currentSceneX, currentSceneY - 1);
-            player.setX(player.getX() + screenWidth);
+        if (player.getCenterX() < - padding) {
+            if (builder.sceneInBounds(currentSceneX, currentSceneY - 1)) {
+                loadScene(currentSceneX, currentSceneY - 1);
+                player.setX(player.getX() + screenWidth);
+            } else {
+                player.getDirection().setX(0); // stop moving in the x direction
+                player.setX(-(player.getWidth()/2));
+            }
         // right
-        } else if (player.getX() > screenWidth - (player.getWidth()/2) + 2 && 
-                builder.sceneInBounds(currentSceneX + 1, currentSceneY)) {
-            loadScene(currentSceneX, currentSceneY + 1);
-            player.setX(player.getX() - screenWidth);
+        } else if (player.getCenterX() > screenWidth + padding) {
+            if (builder.sceneInBounds(currentSceneX, currentSceneY + 1)) {
+                loadScene(currentSceneX, currentSceneY + 1);
+                player.setX(player.getX() - screenWidth);
+            } else {
+                player.getDirection().setX(0); // stop moving in the x direction
+                player.setX(screenWidth - (player.getWidth()/2));
+            }
         // top
-        } else if (player.getY() < -(player.getHeight()/2) - 2 && 
-                builder.sceneInBounds(currentSceneX, currentSceneY - 1)) {
-            loadScene(currentSceneX - 1, currentSceneY);
-            player.setY(player.getY() + screenHeight);
+        } else if (player.getCenterY() < -padding) {
+            if (builder.sceneInBounds(currentSceneX - 1, currentSceneY)) {
+                loadScene(currentSceneX - 1, currentSceneY);
+                player.setY(player.getY() + screenHeight);
+            } else {
+                player.getDirection().setY(0); // stop moving in the y direction
+                player.setY(-player.getHeight()/2);
+            }
         // down
-        }  else if (player.getY() > screenHeight - (player.getHeight()/2) + 2 && 
-                builder.sceneInBounds(currentSceneX, currentSceneY + 1)) {
-            loadScene(currentSceneX + 1, currentSceneY);
-            player.setY(player.getY() - screenHeight);
+        }  else if (player.getCenterY() > screenHeight + padding) {
+            if (builder.sceneInBounds(currentSceneX + 1, currentSceneY)) {
+                loadScene(currentSceneX + 1, currentSceneY);
+                player.setY(player.getY() - screenHeight);
+            } else {
+                player.getDirection().setY(0); // stop moving in the y direction
+                player.setY(screenHeight - (player.getHeight()/2));
+            }
         }
         
         // update the entities
@@ -148,6 +166,9 @@ public class PlayState extends GameState {
         
         // display the time that has passed
         g2.drawString("Time: " + getTimePassedString(), 10, 80);
+        
+        // developer things
+        g2.drawString("Scene: [" + currentSceneY + ", " + currentSceneX + "]", 200, 40);
     }
 
     @Override
