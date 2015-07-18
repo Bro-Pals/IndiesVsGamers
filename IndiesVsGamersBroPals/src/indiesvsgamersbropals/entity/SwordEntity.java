@@ -32,6 +32,10 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
      * The base amount of gold you get for killing an enemy
      */
     private float goldAmount;
+    /**
+     * The bonus gold based on time
+     */
+    private float goldMod;
     
     private Vector2D knockbackDirection;
     private Counter knockbackTime;
@@ -59,6 +63,7 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
         this.speed = 10;
         this.damaged = false;
         direction = new Vector2D();
+        goldMod = 0; // no modifier
     }
 
     public void setSpeed(float speed) {
@@ -162,9 +167,15 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
         this.goldAmount = goldAmount;
     }
 
-    public float getGoldAmount() {
-        return goldAmount;
+    public int getGoldAmount(long gameTime) {
+        return (int)(goldAmount + (goldMod / (gameTime/3000)));
     }
+
+    public void setGoldMod(float goldMod) {
+        this.goldMod = goldMod;
+    }
+    
+    
     
     public void knockback(Vector2D direction, int duration) {
         knockbackDirection = direction;

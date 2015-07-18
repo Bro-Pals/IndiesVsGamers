@@ -128,8 +128,21 @@ public class PlayState extends GameState {
             ent.update(i);
             // remove enemies from the enemy manager as they die
             if (ent.getParent() == null && ent != player && ent instanceof SwordEntity) {
-                enemyManager.removeEnemy(currentSceneX, currentSceneY, (SwordEntity)ent);
-                world.getEntities().remove(ent);
+                SwordEntity enemy = (SwordEntity)ent;
+                enemyManager.removeEnemy(currentSceneX, currentSceneY, enemy);
+                world.getEntities().remove(enemy);
+                gold += enemy.getGoldAmount(gameTime);
+                
+                // if you killed the goal enemy..
+                if (enemy == builder.getGoalEnemy()) {
+                    System.out.println("Completed the quest!");
+                    questOn++;
+                    if (questOn < QUESTS_FILES.length) {
+                        loadQuest(questOn);
+                    } else {
+                        System.out.println("NO MORE QUESTS TO COMPLETE");
+                    }
+                }
             }
         }
     }
@@ -165,7 +178,8 @@ public class PlayState extends GameState {
         int dirY = builder.getGoalSceneY() - currentSceneY;
         
         // if you aren't at the goal scene draw the arrow
-        if (dirX != 0 && dirY != 0) {
+        if (dirX != 0 && dirY != 0 && builder.getGoalSceneX() != -1 && 
+                builder.getGoalSceneY() != -1) {
             Vector2D goalDirection = new Vector2D(dirX, dirY);
             goalDirection.normalizeLocal();
             double angle = Math.acos(goalDirection.getX());
