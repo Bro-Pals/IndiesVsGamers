@@ -27,40 +27,49 @@ public class SwordEntityComponent extends TexturedBlock {
      * @param y y pos AND the offset y
      * @param width width
      * @param height height
-     * @param isSword Whether or not this is a sword part. If not it's a body
      */
     public SwordEntityComponent(float x, float y, 
-            float width, float height, boolean isSword) {
+            float width, float height) {
         super(null, x, y, width, height);
         setCollidable(true);
         setAnchored(false);
-        this.isSword = isSword;
-        if (isSword) {
-            damage = 1;
-        }
+        this.isSword = false;
         localX = x;
         localY = y;
+    }
+    
+    public void makeASword(int dmg) {
+        isSword = true;
+        damage = dmg;
     }
 
     @Override
     public void collideWith(BlockEntity other) {
         if (other instanceof SwordEntityComponent) {
             SwordEntityComponent otherComp = (SwordEntityComponent)other;
+            if (otherComp.getParentEntity().getParent() == null ||
+                    otherComp.getParentEntity().getParent() != getParent() ||
+                    getParent() == null) {
+                // can't be hurt by something in a different world or with no parent
+                return;
+            }
             //System.out.println("hit another");
             if (otherComp.isIsSword()) {
                 if (this.isSword) {
                     // make knockback
                     System.out.println("KNOCKBACK");
-//                    float diffX = otherComp.getCenterX() - getCenterX();
+                    float diffX = otherComp.getCenterX() - getCenterX();
 //                    float diffY = otherComp.getCenterY() - getCenterY();
                     /// always get pushed back
-                    Vector2D knockbackVector = new Vector2D(20, 0);
-                    int knockbackDuration = 700;
+                    float direction = (diffX / Math.abs(diffX));
+                    Vector2D knockbackVector = new Vector2D(direction * 18 * -1, 0);
+                    int knockbackDuration = 80;
                     //getParentEntity().knockback(knockbackVector, knockbackDuration);
                     //knockbackVector.scaleLocal(-1); // opposite direction
                     otherComp.getParentEntity().knockback(knockbackVector, knockbackDuration);
                 } else {
-                    parentEntity.damage(damage); // swords do 1 damage to body
+                    //System.out.println("DAMAGE");
+                    parentEntity.damage(otherComp.getDamage()); // swords do 1 damage to body
                 }
             }
         } else if (other instanceof Projectile) {
