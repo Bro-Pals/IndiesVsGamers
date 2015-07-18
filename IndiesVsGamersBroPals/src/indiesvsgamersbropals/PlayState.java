@@ -81,22 +81,22 @@ public class PlayState extends GameState {
         // left
         if (player.getX() < -(player.getWidth()/2) - 2 && 
                 builder.sceneInBounds(currentSceneX - 1, currentSceneY)) {
-            loadScene(currentSceneX - 1, currentSceneY);
+            loadScene(currentSceneX, currentSceneY - 1);
             player.setX(player.getX() + screenWidth);
         // right
         } else if (player.getX() > screenWidth - (player.getWidth()/2) + 2 && 
                 builder.sceneInBounds(currentSceneX + 1, currentSceneY)) {
-            loadScene(currentSceneX + 1, currentSceneY);
+            loadScene(currentSceneX, currentSceneY + 1);
             player.setX(player.getX() - screenWidth);
         // top
         } else if (player.getY() < -(player.getHeight()/2) - 2 && 
                 builder.sceneInBounds(currentSceneX, currentSceneY - 1)) {
-            loadScene(currentSceneX, currentSceneY - 1);
+            loadScene(currentSceneX - 1, currentSceneY);
             player.setY(player.getY() + screenHeight);
         // down
         }  else if (player.getY() > screenHeight - (player.getHeight()/2) + 2 && 
                 builder.sceneInBounds(currentSceneX, currentSceneY + 1)) {
-            loadScene(currentSceneX, currentSceneY + 1);
+            loadScene(currentSceneX + 1, currentSceneY);
             player.setY(player.getY() - screenHeight);
         }
         

@@ -13,6 +13,7 @@ import bropals.lib.simplegame.entity.GameWorld;
 import bropals.lib.simplegame.entity.block.TexturedBlock;
 import bropals.lib.simplegame.io.AssetManager;
 import bropals.lib.simplegame.state.GameState;
+import indiesvsgamersbropals.entity.HazardBlock;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
 import java.awt.image.BufferedImage;
@@ -111,13 +112,18 @@ public class WorldBuilder {
                     if (input.startsWith("SCENE")) {
                         // if you were already on a scene, then finish it
                         return world;
-                    } else if (input.startsWith("BLOCK")) {
+                    } else if (input.startsWith("BLOCK") || input.startsWith("HAZARD")) {
                         String[] tokens = input.split(" ");
                         int x = Integer.parseInt(tokens[1]);
                         int y = Integer.parseInt(tokens[2]);
                         int width = Integer.parseInt(tokens[3]);
                         int height = Integer.parseInt(tokens[4]);
-                        TexturedBlock block = new TexturedBlock(world, x, y, width, height);
+                        TexturedBlock block;
+                        if (input.startsWith("HAZARD")) {
+                            block = new HazardBlock(world, x, y, width, height);
+                        } else {
+                            block = new TexturedBlock(world, x, y, width, height);
+                        }
                         world.addEntity(block);
                         block.setParent(world);
                         block.setAnchored(true);

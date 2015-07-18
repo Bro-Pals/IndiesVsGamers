@@ -66,6 +66,8 @@ public class SwordEntityComponent extends TexturedBlock {
             Projectile proj = (Projectile)other;
             parentEntity.damage(proj.getDamage());
             proj.setParent(null);
+        } else if (other instanceof HazardBlock) {
+            parentEntity.damage(((HazardBlock)other).getDamage());
         }
     }
 
