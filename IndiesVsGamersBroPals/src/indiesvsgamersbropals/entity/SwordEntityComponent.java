@@ -53,10 +53,11 @@ public class SwordEntityComponent extends TexturedBlock {
                     System.out.println("KNOCKBACK");
 //                    float diffX = otherComp.getCenterX() - getCenterX();
 //                    float diffY = otherComp.getCenterY() - getCenterY();
+                    /// always get pushed back
                     Vector2D knockbackVector = new Vector2D(20, 0);
                     int knockbackDuration = 700;
-                    getParentEntity().knockback(knockbackVector, knockbackDuration);
-                    knockbackVector.scaleLocal(-1); // opposite direction
+                    //getParentEntity().knockback(knockbackVector, knockbackDuration);
+                    //knockbackVector.scaleLocal(-1); // opposite direction
                     otherComp.getParentEntity().knockback(knockbackVector, knockbackDuration);
                 } else {
                     parentEntity.damage(damage); // swords do 1 damage to body

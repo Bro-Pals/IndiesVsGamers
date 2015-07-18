@@ -35,7 +35,7 @@ public class WorldBuilder {
     private File file;
     private int worldWidth; // how many scenes wide the world is
     private int worldHeight; // how many scenes high the world is
-    private int spawnSceneX, spawnSceneY, spawnPosX, spawnPosY;
+    private int spawnSceneX, spawnSceneY, spawnPosX, spawnPosY, goalSceneX, goalSceneY;
     private BufferedImage lastBackgroundImage;
     
     public WorldBuilder(File worldFile) {
@@ -139,8 +139,8 @@ public class WorldBuilder {
                             anim.setTrack(0);
                             block.setAnimation(anim);
                         } else {
-                            System.err.println("Did not specify if it was an image or an animation");
-                            throw new Exception("Need I or A by line " + line);
+                            System.err.println("Parsing error");
+                            throw new Exception("Parsing error with the line line '" + line + "'");
                         }
                     } else if (input.startsWith("BACKGROUND")) {
                         String[] tokens = input.split(" ");
@@ -180,13 +180,17 @@ public class WorldBuilder {
                 }
                 System.out.println("reading: " + input);
                 
-                if (input.startsWith("SPAWN")) {
+                if (input.startsWith("SPAWN") || input.startsWith("SPAWN_GOAL")) {
                     String[] tokens = input.split(" ");
                     String enemyType = tokens[1];
                     int sceneY = Integer.parseInt(tokens[2]);
                     int sceneX = Integer.parseInt(tokens[3]);
                     int x = Integer.parseInt(tokens[4]);
                     int y = Integer.parseInt(tokens[5]);
+                    if (input.startsWith("SPAWN_GOAL")) {
+                        goalSceneX = sceneX;
+                        goalSceneY = sceneY;
+                    }
                     System.out.println("position: " + x + ", " + y);
                     // use the factory to make a new enemy
                     // add it to the enemy manager

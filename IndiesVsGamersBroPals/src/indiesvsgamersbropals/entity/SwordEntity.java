@@ -135,6 +135,14 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
         return parts[0].getHeight();
     }
 
+    public float getCenterX() {
+        return parts[0].getCenterX();
+    }
+    
+    public float getCenterY() {
+        return parts[0].getCenterY();
+    }
+    
     public float getSpeed() {
         return speed;
     }
