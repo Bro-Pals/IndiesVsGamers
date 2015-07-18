@@ -5,6 +5,7 @@ SCENE 0 0
 BACKGROUND woodsBackgroundRight
 SCENE 0 1
 BACKGROUND woodsBackgroundLeftRight
+BLOCK 0 760 800 89 I castleWallHorizontal
 SCENE 0 2
 BACKGROUND woodsBackgroundLeftRight
 SCENE 0 3
@@ -19,28 +20,50 @@ SCENE 0 7
 BACKGROUND woodsBackgroundLeft
 SCENE 1 0
 BACKGROUND woodsBackground
+BLOCK 760 0 89 600 I castleWallVertical
 SCENE 1 1
 BACKGROUND wineCellarBackground
 SCENE 1 2
 BACKGROUND woodsBackgroundRight
+BLOCK 40 560 800 89 I castleWallHorizontal
+BLOCK -49 -40 89 600 I castleWallVertical
 SCENE 1 3
 BACKGROUND woodsBackgroundUpDownLeft
 SCENE 1 4
+BACKGROUND townBackground
+BLOCK 180 250 120 120 I townHouse
+BLOCK 160 540 120 120 I townHouse
+BLOCK 740 525 120 120 I townHouse
+BLOCK 760 150 120 120 I townHouse
 SCENE 1 5
+BLOCK -60 525 120 120 I townHouse
+BLOCK -40 150 120 120 I townHouse
+BLOCK 350 270 120 120 I townHouse
+BACKGROUND townBackground
 SCENE 1 6
 BACKGROUND woodsBackgroundUpDownRight
 SCENE 1 7
 BACKGROUND woodsBackgroundLeft
 SCENE 2 0
 BACKGROUND woodsBackgroundDown
+BLOCK 760 0 89 600 I castleWallVertical
 SCENE 2 1
 BACKGROUND cookRoomBackground
 SCENE 2 2
 BACKGROUND throneRoomBackground
 SCENE 2 3
 BACKGROUND woodsBackgroundUpDown
+BLOCK -49 0 89 600 I castleWallVertical
 SCENE 2 4
+BACKGROUND townBackground
+BLOCK 740 -75 120 120 I townHouse
+BLOCK 80 360 120 120 I townHouse
+BLOCK 340 360 120 120 I townHouse
+BLOCK 160 -60 120 120 I townHouse
 SCENE 2 5
+BACKGROUND townBackground
+BLOCK -60 -75 120 120 I townHouse
+BLOCK 440 2 90 120 120 I townHouse
 SCENE 2 6
 BACKGROUND woodsBackgroundUpDown
 SCENE 2 7
@@ -49,8 +72,11 @@ SCENE 3 0
 BACKGROUND woodsBackgroundUpDownRight
 SCENE 3 1
 BACKGROUND woodsBackgroundLeftRight
+BLOCK -440 -49 800 89 I castleWallHorizontal
+BLOCK 440 -49 800 89 I castleWallHorizontal
 SCENE 3 2
 BACKGROUND woodsBackgroundDownLeftRight
+BLOCK 0 -49 800 89 I castleWallHorizontal
 SCENE 3 3
 BACKGROUND woodsBackgroundUpDownLeftRight
 SCENE 3 4
