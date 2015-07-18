@@ -11,6 +11,7 @@ import bropals.lib.simplegame.animation.Track;
 import bropals.lib.simplegame.entity.BaseEntity;
 import bropals.lib.simplegame.entity.GameWorld;
 import bropals.lib.simplegame.entity.block.TexturedBlock;
+import bropals.lib.simplegame.io.AssetManager;
 import bropals.lib.simplegame.state.GameState;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
@@ -73,6 +74,10 @@ public class WorldBuilder {
         }
     }
     
+    public boolean sceneInBounds(int posX, int posY) {
+        return posX >= 0 && posX < worldWidth && posY >= 0 && posY < worldHeight;
+    }
+    
     /**
      * Get the scene at the given position.
      * @param stateToBuildFor The game state to load the scene for
@@ -84,7 +89,7 @@ public class WorldBuilder {
         System.out.println("world width: " + worldWidth);
         System.out.println("world height: " + worldHeight);
         System.out.println("Scene position: " + posX + ", " + posY);
-        if (posX < 0 || posX >= worldWidth || posY < 0 || posY >= worldHeight) {
+        if (!sceneInBounds(posX, posY)) {
             System.err.println("The scene location is outside of the given bounds");
             return null;
         }
@@ -125,7 +130,8 @@ public class WorldBuilder {
                                     Integer.parseInt(tokens[7]), 
                                     Integer.parseInt(tokens[8]), 
                                     Integer.parseInt(tokens[9])));
-                            block.setAnimation(new Animation());
+                            anim.setTrack(0);
+                            block.setAnimation(anim);
                         } else {
                             System.err.println("Did not specify if it was an image or an animation");
                             throw new Exception("Need I or A by line " + line);
@@ -156,10 +162,10 @@ public class WorldBuilder {
         return null;
     }
 
-    public void spawnEnemiesForQuest(File questFile, EnemyManager manager) {
+    public void spawnEnemiesForQuest(File questFile, EnemyManager manager, AssetManager assetManager) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(questFile));
-            SwordEntityFactory factory = new SwordEntityFactory();
+            SwordEntityFactory factory = new SwordEntityFactory(assetManager);
             
             String input = "";
             while ((input = reader.readLine()) != null) {
@@ -175,7 +181,7 @@ public class WorldBuilder {
                     int sceneY = Integer.parseInt(tokens[3]);
                     int x = Integer.parseInt(tokens[4]);
                     int y = Integer.parseInt(tokens[5]);
-                    
+                    System.out.println("position: " + x + ", " + y);
                     // use the factory to make a new enemy
                     // add it to the enemy manager
                     if (enemyType.equals("GUARD")) {
@@ -184,7 +190,7 @@ public class WorldBuilder {
                         SwordEntity entity = factory.makeGuardEnemy();
                         entity.setX(x);
                         entity.setY(y);
-                        manager.saveEnemy(sceneX, sceneY, factory.makeGuardEnemy());
+                        manager.saveEnemy(sceneX, sceneY, entity);
                         System.out.println("added a guard to the scene");
                     }
                 }

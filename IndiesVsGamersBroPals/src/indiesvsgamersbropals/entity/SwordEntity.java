@@ -9,12 +9,14 @@ import bropals.lib.simplegame.entity.BaseEntity;
 import bropals.lib.simplegame.entity.GameWorld;
 import bropals.lib.simplegame.entity.block.BlockEntity;
 import bropals.lib.simplegame.math.Vector2D;
+import bropals.lib.simplegame.util.Counter;
+import bropals.lib.simplegame.util.CounterFunction;
 
 /**
  * The sword entity thing - it's what everything will be.'
  * @author Kevin
  */
-public class SwordEntity extends BaseEntity {
+public class SwordEntity extends BaseEntity implements CounterFunction {
         
     /** 
         parents of the body
@@ -31,6 +33,9 @@ public class SwordEntity extends BaseEntity {
      */
     private float goldAmount;
     
+    private Vector2D knockbackDirection;
+    private Counter knockbackTime;
+    
     /**
      * Create a new SwordEntity, with a body and carrying some swords.
      * The swords are positioned localed from the orgin of the body block.
@@ -39,6 +44,7 @@ public class SwordEntity extends BaseEntity {
      */
     public SwordEntity(SwordEntityComponent body, SwordEntityComponent[] swords) {
         super(null);
+        goldAmount = -1;
         parts = new SwordEntityComponent[swords.length + 1];
         parts[0] = body;
         // turn the swords into world space from local space
@@ -61,33 +67,19 @@ public class SwordEntity extends BaseEntity {
     
     @Override
     public void update(int i) {
-        
-        // move all the components with the sword entity
-        for (SwordEntityComponent comp : parts) {
-            comp.getVelocity().setValues(direction.getX(), direction.getY());
-            comp.getVelocity().scaleLocal(speed);
+        if (knockbackTime != null) {
+            knockbackTime.update();
         }
+        
+        // move the main component
+        parts[0].getVelocity().setValues(direction.getX(), direction.getY());
+        parts[0].getVelocity().scaleLocal(speed);
         
         if (parts[0].getParent() != null)
             parts[0].update(i);
             
         for (int k=1; k<parts.length; k++) {
-//            if (parts[k].getParent() == null)
-//                continue;
-            
-            // save local coordinates
-            float localX = parts[k].getX();
-            float localY = parts[k].getY();
-            
-            // move to world coordinates
-            parts[k].setX(parts[k].getX() + parts[0].getX());
-            parts[k].setY(parts[k].getY() + parts[0].getY());
-            
             parts[k].checkCollisions();
-            
-            // move back to local coordinates
-            parts[k].setX(localX);
-            parts[k].setY(localY);
         }
     }
     
@@ -101,17 +93,7 @@ public class SwordEntity extends BaseEntity {
     @Override
     public void render(Object o) {
         for (int i=0; i<parts.length; i++) {
-            if (i > 0) {
-                parts[i].setX(parts[i].getX() + parts[0].getX());
-                parts[i].setY(parts[i].getY() + parts[0].getY());
-            }
-            
             parts[i].render(o);
-            
-            if (i > 0) {
-                parts[i].setX(parts[i].getX() - parts[0].getX());
-                parts[i].setY(parts[i].getY() - parts[0].getY());
-            }
         }
     }
     
@@ -127,6 +109,22 @@ public class SwordEntity extends BaseEntity {
     public void setY(float y) {
         parts[0].setY(y);
     }
+    
+    public float getX() {
+        return parts[0].getX();
+    }
+    
+    public float getY() {
+        return parts[0].getY();
+    }
+    
+    public float getWidth() {
+        return parts[0].getWidth();
+    }
+    
+    public float getHeight() {
+        return parts[0].getHeight();
+    }
 
     public float getSpeed() {
         return speed;
@@ -136,8 +134,30 @@ public class SwordEntity extends BaseEntity {
     public void setParent(GameWorld parent) {
         for (SwordEntityComponent part : parts) {
             part.setParent(parent);
+            if (parent != null) {
+                parent.addEntity(part);
+            }
         }
         super.setParent(parent);
+    }
+
+    public void setGoldAmount(float goldAmount) {
+        this.goldAmount = goldAmount;
+    }
+
+    public float getGoldAmount() {
+        return goldAmount;
+    }
+    
+    public void knockback(Vector2D direction, int duration) {
+        knockbackDirection = direction;
+        knockbackTime = new Counter(duration, this);
+    }
+
+    @Override
+    public void countFinished() {
+        // stop being knocked back
+        knockbackDirection = null;
     }
     
     

@@ -13,6 +13,7 @@ import bropals.lib.simplegame.state.GameState;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.util.ArrayList;
@@ -33,19 +34,24 @@ public class PlayState extends GameState {
     private GameWorld<BaseEntity> world;
     private EnemyManager enemyManager;
     private WorldBuilder builder;
-    private long gameTime;
+    
     private boolean w, a, s, d;
     private int currentSceneX, currentSceneY;
     
+    // values important to score
+    private long gameTime;
+    private int gold;
+    
     @Override
     public void update(int i) {
+        // update the game time
+        gameTime += i;
+        
         // don't continue if the player or the world is not yet there.
         if (player == null || world == null)
             return;
         
-        //System.out.println("update; player direction: " + player.getDirection().getY() + ", " + player.getDirection().getX());
-        //System.out.println("w:" + w + " a:" + a + " s:" + s + " d:" + d);
-        // update the player
+        // update the player's velocity for moving
         if (w) {
             player.getDirection().setY(-1); // up
         } 
@@ -66,8 +72,40 @@ public class PlayState extends GameState {
              player.getDirection().setX(0); // stop left or right
         }
         
+        int screenWidth = 800;
+        int screenHeight = 600;
+        
+        // check if the player is about to leave the scene and load 
+        // a new scene ifneeded
+        
+        // left
+        if (player.getX() < -(player.getWidth()/2) - 2 && 
+                builder.sceneInBounds(currentSceneX - 1, currentSceneY)) {
+            loadScene(currentSceneX - 1, currentSceneY);
+            player.setX(player.getX() + screenWidth);
+        // right
+        } else if (player.getX() > screenWidth - (player.getWidth()/2) + 2 && 
+                builder.sceneInBounds(currentSceneX + 1, currentSceneY)) {
+            loadScene(currentSceneX + 1, currentSceneY);
+            player.setX(player.getX() - screenWidth);
+        // top
+        } else if (player.getY() < -(player.getHeight()/2) - 2 && 
+                builder.sceneInBounds(currentSceneX, currentSceneY - 1)) {
+            loadScene(currentSceneX, currentSceneY - 1);
+            player.setY(player.getY() + screenHeight);
+        // down
+        }  else if (player.getY() > screenHeight - (player.getHeight()/2) + 2 && 
+                builder.sceneInBounds(currentSceneX, currentSceneY + 1)) {
+            loadScene(currentSceneX, currentSceneY + 1);
+            player.setY(player.getY() - screenHeight);
+        }
+        
         // update the entities
         for (BaseEntity ent : world.getEntities()) {
+            if (ent.getParent() != world) {
+                continue;
+            }
+            
             ent.update(i);
             // remove enemies from the enemy manager as they die
             if (ent.getParent() == null && ent != player && ent instanceof SwordEntity) {
@@ -85,6 +123,8 @@ public class PlayState extends GameState {
             g2.drawString("Loading... ", 100, 100);
             return;
         }
+        
+        // draw the background
         if (builder.getLastBackgroundImage() == null) {
             g2.setColor(Color.WHITE);
             g2.fillRect(0, 0, 800, 600);
@@ -92,34 +132,44 @@ public class PlayState extends GameState {
             g2.drawImage(builder.getLastBackgroundImage(), 0, 0, null);
         }
         
-        g2.setColor(Color.red);
+        // draw all entities that are in the world
         for (BaseEntity ent : world.getEntities()) {
+            if (ent.getParent() != world) {
+                continue;
+            }
+            
             ent.render(o);
         }
+        
+        g2.setFont(new Font("Arial", Font.PLAIN, 32));
+        g2.setColor(Color.WHITE);
+        // display the gold that you earned so far
+        g2.drawString("Gold: " + gold, 10, 40);
+        
+        // display the time that has passed
+        g2.drawString("Time: " + getTimePassedString(), 10, 80);
     }
 
     @Override
     public void onEnter() {
+        gold = 0; // start with no gold
         builder = new WorldBuilder(new File(WORLD_FILE_PATH));
         enemyManager = new EnemyManager();
         // load the quest before the scene
+
+        // set up the player
+        SwordEntityFactory factory = new SwordEntityFactory(getAssetManager());
+        player = factory.makePlayer();
+        player.setX(builder.getSpawnPosX());
+        player.setY(builder.getSpawnPosY());
+
+        // create controllers
+        addController(new PlayerControls(player));
+        
+        // load the first quest
         loadQuest(0);
         // the spawn scene
         loadScene(builder.getSpawnSceneX(), builder.getSpawnSceneY());
-        if (world != null) {
-            System.out.println("world was made - adding player");
-            SwordEntityFactory factory = new SwordEntityFactory();
-            player = factory.makePlayer(world);
-            player.setX(builder.getSpawnPosX());
-            player.setY(builder.getSpawnPosY());
-            world.addEntity(player);
-            player.setParent(world);
-            
-            // create controllers
-            addController(new PlayerControls(player));
-        } else {
-            System.err.println("Error with loading the world");
-        }
     }
 
     @Override
@@ -147,7 +197,7 @@ public class PlayState extends GameState {
                     s=bln;
                     break;
                 case KeyCode.KEY_D:
-                    d = bln;
+                    d=bln;
                     break;
             }
         }
@@ -159,6 +209,10 @@ public class PlayState extends GameState {
     }
     
     private void loadScene(int posX, int posY) {
+        if (!builder.sceneInBounds(posX, posY)) {
+            System.err.println("The scene at the position (" + posX + ", " + posY + ") is not valid");
+            return;
+        }
         GameWorld lastWorld = world;
         world = builder.buildWorld(this, posX, posY);
         if (world != null) {
@@ -169,6 +223,11 @@ public class PlayState extends GameState {
             world = lastWorld;
             return;
         }
+        
+        // add the player to the new scene
+        world.addEntity(player);
+        player.setParent(world);
+        
         // add the enemies to the scene
         ArrayList<SwordEntity> enemies = enemyManager.getEnemies(posX, posY);
         for (int i=0; i<enemies.size(); i++) {
@@ -186,7 +245,17 @@ public class PlayState extends GameState {
      */
     private void loadQuest(int questNumber) {
         questOn = questNumber;
-        builder.spawnEnemiesForQuest(new File(QUESTS_FILES[questOn]), enemyManager);
+        builder.spawnEnemiesForQuest(new File(QUESTS_FILES[questOn]), enemyManager, getAssetManager());
     }
     
+    private String getTimePassedString() {
+        int secondsPassed = (int)(gameTime / 1000);
+        int minutesPassed = (int)(secondsPassed / 60);
+        secondsPassed = secondsPassed - (minutesPassed * 60);
+        String prefix = "";
+        if (secondsPassed < 10) {
+            prefix = "0";
+        }
+        return minutesPassed + ":" + prefix + secondsPassed;
+    }
 }

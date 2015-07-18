@@ -21,6 +21,7 @@ public class GameMain {
      */
     public static void main(String[] args) {
         AssetManager manager = new AssetManager(new File("assets"), true);
+        manager.loadImagesInDirectories("images", true);
         GameStateRunner runner = new GameStateRunner(new AWTGameWindow("Indies vs Gamers", 800, 600, false), 
                 manager);
         runner.setState(new PlayState());

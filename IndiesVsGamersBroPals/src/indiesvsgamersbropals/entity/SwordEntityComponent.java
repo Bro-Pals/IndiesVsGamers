@@ -18,11 +18,12 @@ public class SwordEntityComponent extends TexturedBlock {
     private boolean isSword;
     private int damage;
     private SwordEntity parentEntity;
+    private float localX, localY;
     
     /**
      * Create a new entity componenent, a part of a sword entity
-     * @param x x pos
-     * @param y y pos
+     * @param x x pos AND the offset x
+     * @param y y pos AND the offset y
      * @param width width
      * @param height height
      * @param isSword Whether or not this is a sword part. If not it's a body
@@ -36,6 +37,8 @@ public class SwordEntityComponent extends TexturedBlock {
         if (isSword) {
             damage = 1;
         }
+        localX = x;
+        localY = y;
     }
 
     @Override
@@ -44,7 +47,12 @@ public class SwordEntityComponent extends TexturedBlock {
             SwordEntityComponent otherComp = (SwordEntityComponent)other;
             System.out.println("hit another");
             if (otherComp.isIsSword()) {
-                parentEntity.damage(1); // swords do 1 damage to parent
+                if (this.isSword) {
+                    // make knockback
+                    
+                } else {
+                    parentEntity.damage(1); // swords do 1 damage to body
+                }
             }
         } else if (other instanceof Projectile) {
             Projectile proj = (Projectile)other;
@@ -55,7 +63,7 @@ public class SwordEntityComponent extends TexturedBlock {
 
     @Override
     public boolean handleCollide(BlockEntity other) {
-        //System.out.println("Handling collision");
+        System.out.println("Handling collision");
         if (other instanceof SwordEntityComponent) {
             if (((SwordEntityComponent)other).getParentEntity() == getParentEntity()) {
                 System.out.println("Collided with another component of the same parent sword entity");
@@ -87,6 +95,34 @@ public class SwordEntityComponent extends TexturedBlock {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+    
+    @Override
+    public float getX() {
+        // GLOBAL coordinates
+        if (!isSword) {
+            return super.getX();
+        }
+        return parentEntity.getX() + localX;
+    }
+    
+    public float getLocalX() {
+        //local coordinates
+        return localX;
+    }
+    
+    @Override
+    public float getY() {
+        // GLOBAL coordinates
+        if (!isSword) {
+            return super.getY();
+        }
+        return parentEntity.getY() + localY;
+    }
+    
+    public float getLocalY() {
+        //local coordinates
+        return localY;
     }
 
 }
