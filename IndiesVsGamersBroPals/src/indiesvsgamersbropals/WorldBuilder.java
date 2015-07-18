@@ -173,6 +173,10 @@ public class WorldBuilder {
             BufferedReader reader = new BufferedReader(new FileReader(questFile));
             SwordEntityFactory factory = new SwordEntityFactory(assetManager);
             
+            // delete any previous scene goal
+            goalSceneX = -1;
+            goalSceneY = -1;
+            
             String input = "";
             while ((input = reader.readLine()) != null) {
                 if (input.length() == 0) {
@@ -231,6 +235,16 @@ public class WorldBuilder {
         return spawnPosX;
     }
 
+    public int getGoalSceneX() {
+        return goalSceneX;
+    }
+
+    public int getGoalSceneY() {
+        return goalSceneY;
+    }
+
+    
+    
     public BufferedImage getLastBackgroundImage() {
         return lastBackgroundImage;
     }
