@@ -72,9 +72,15 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
     
     @Override
     public void update(int i) {
+        if (health <= 0) {
+            //System.out.println("THIS ENTITY HAS NO HEALTH LEFT");
+            setParent(null);
+            return;
+        }
+        
         if (knockbackTime != null) {
             knockbackTime.update();
-            System.out.println("udpating the knockback");
+            //System.out.println("udpating the knockback");
         }
         
         // move the main component
@@ -82,7 +88,7 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
         parts[0].getVelocity().scaleLocal(speed);
         
         if (knockbackDirection != null) {
-            System.out.println("WE ARE ADDING KNOCKBACK");
+            //System.out.println("WE ARE ADDING KNOCKBACK");
             parts[0].getVelocity().setValues(
                     parts[0].getVelocity().getX() + knockbackDirection.getX(),
                     parts[0].getVelocity().getY() + knockbackDirection.getY());
@@ -98,10 +104,10 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
     }
     
     public void damage(int amount) {
-        health -= amount;
-        if (health <= 0) {
-            setParent(null);
-        }
+        System.out.println("before health " + health);
+        health = health - amount;
+        System.out.println("amount: " + amount);
+        System.out.println("health " + health);
     }
 
     @Override

@@ -120,14 +120,19 @@ public class PlayState extends GameState {
         }
         
         // update the entities
-        for (BaseEntity ent : world.getEntities()) {
-            if (ent.getParent() != world || ent.getParent() == null) {
-                continue;
+        for (int h=0; h< world.getEntities().size(); h++) {
+            BaseEntity ent = world.getEntities().get(h);
+//            if (ent.getParent() != world || ent.getParent() == null) {
+//                continue;
+//            }
+            
+            if (ent.getParent() != null) {
+                ent.update(i);
             }
             
-            ent.update(i);
             // remove enemies from the enemy manager as they die
             if (ent.getParent() == null && ent != player && ent instanceof SwordEntity) {
+                System.out.println("ENEMY DIED");
                 SwordEntity enemy = (SwordEntity)ent;
                 enemyManager.removeEnemy(currentSceneX, currentSceneY, enemy);
                 world.getEntities().remove(enemy);
@@ -202,7 +207,7 @@ public class PlayState extends GameState {
         g2.drawString("Time: " + getTimePassedString(), 10, 80);
         
         // developer things
-        g2.drawString("Scene: [" + currentSceneY + ", " + currentSceneX + "]", 200, 40);
+        g2.drawString("Scene: [" + currentSceneY + ", " + currentSceneX + "]", 10, 120);
     }
 
     @Override

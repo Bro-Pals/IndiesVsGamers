@@ -107,7 +107,7 @@ public class WorldBuilder {
                 if (input.length() == 0) {
                    continue;
                 }
-                System.out.println("Reading line: " + input);
+//                System.out.println("Reading line: " + input);
 
                 if (onScene) {
                     if (input.startsWith("SCENE")) {
@@ -183,7 +183,7 @@ public class WorldBuilder {
                 if (input.length() == 0) {
                    continue;
                 }
-                System.out.println("reading: " + input);
+//                System.out.println("reading: " + input);
                 
                 if (input.startsWith("SPAWN") || input.startsWith("SPAWN_GOAL")) {
                     String[] tokens = input.split(" ");
