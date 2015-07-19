@@ -41,7 +41,7 @@ public class SwordEntityFactory {
         anim.setTrack(0);
         anim.getTrackOn().setMillisBetweenImages(80);
         body.setAnimation(anim);
-        SwordEntityComponent[] sword = {new SwordEntityComponent(42, -10, 30, 15)};
+        SwordEntityComponent[] sword = {new SwordEntityComponent(42, 14, 30, 15)};
         sword[0].makeASword(1);
         sword[0].setImage(manager.getImage("playerWeapon"));
         return new SwordEntity(body, sword);

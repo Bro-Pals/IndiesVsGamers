@@ -13,9 +13,11 @@ import bropals.lib.simplegame.math.Vector2D;
 import bropals.lib.simplegame.state.GameState;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
+import indiesvsgamersbropals.screens.DeathScreenState;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -43,8 +45,22 @@ public class PlayState extends GameState {
     private long gameTime;
     private int gold;
     
+    private GameJoltDataHolder gameJoltDataHolder;
+    
+    public PlayState(GameJoltDataHolder holder) {
+        gameJoltDataHolder = holder;
+    }
+    
     @Override
     public void update(int i) {
+        if (player.getParent() == null) {
+            System.out.println("Oh noes the player died");
+            // go to the next screen, passing in important values
+            getGameStateRunner().setState(
+                    new DeathScreenState(getTimePassedString(), 
+                            gameTime, gold, gameJoltDataHolder));
+            return;
+        }
         // update the game time
         gameTime += i;
         
@@ -183,19 +199,25 @@ public class PlayState extends GameState {
         int dirY = builder.getGoalSceneY() - currentSceneY;
         
         // if you aren't at the goal scene draw the arrow
-        if (dirX != 0 && dirY != 0 && builder.getGoalSceneX() != -1 && 
+        if (!(dirX == 0 && dirY == 0) && builder.getGoalSceneX() != -1 && 
                 builder.getGoalSceneY() != -1) {
             Vector2D goalDirection = new Vector2D(dirX, dirY);
             goalDirection.normalizeLocal();
             double angle = Math.acos(goalDirection.getX());
-            if (dirY < 0) {
+            if (dirY > 0) {
                 angle *= -1; //reverse angle direction
             }
             float distance = 100;
-            float arrowX = player.getCenterX() + (goalDirection.getX() * distance);
-            float arrowY = player.getCenterY() + (goalDirection.getY() * distance);
+            float arrowX = player.getCenterX() - (float)(Math.sin(angle) * distance);
+            float arrowY = player.getCenterY() + (float)(Math.cos(angle) * distance);
             
-            g2.fillOval((int)arrowX - 10, (int)arrowY - 10, 20, 20);
+            g2.translate(arrowX, arrowY);
+            g2.rotate(angle);
+            BufferedImage arrowImage = getAssetManager().getImage("arrow");
+            g2.drawImage(arrowImage, -arrowImage.getWidth()/2, -arrowImage.getHeight()/2, null);
+            g2.rotate(-angle);
+            g2.translate(-arrowX, -arrowY);
+            
         }
         
         g2.setFont(new Font("Arial", Font.PLAIN, 32));
