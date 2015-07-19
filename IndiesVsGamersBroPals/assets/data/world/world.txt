@@ -142,6 +142,7 @@ BACKGROUND woodsBackgroundUp
 BLOCK 760 0 89 600 I churchWallVertical
 SCENE 4 4
 BACKGROUND churchBackground
+BLOCK 332 221 140 131 I churchBell
 BLOCK 40 -49 720 89 I churchWallHorizontalShort
 BLOCK -49 40 89 520 I churchWallVerticalShort
 BLOCK 760 40 89 520 I churchWallVerticalShort
