@@ -25,7 +25,8 @@ public class GameMain {
         manager.loadImagesInDirectories("images", true);
         GameStateRunner runner = new GameStateRunner(new AWTGameWindow("Indies vs Gamers", 800, 600, false), 
                 manager);
-        runner.setState(new CoverScreenState());
+        //runner.setState(new CoverScreenState());
+        runner.setState(new PlayState(null));
         runner.loop();
     }
     

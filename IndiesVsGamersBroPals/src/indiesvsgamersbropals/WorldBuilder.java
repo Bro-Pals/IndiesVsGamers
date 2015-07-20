@@ -16,6 +16,8 @@ import bropals.lib.simplegame.state.GameState;
 import indiesvsgamersbropals.entity.HazardBlock;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
+import indiesvsgamersbropals.entity.enem.GuardEntity;
+import indiesvsgamersbropals.entity.enem.WhiteGhostEntity;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -169,7 +171,8 @@ public class WorldBuilder {
         return null;
     }
 
-    public void spawnEnemiesForQuest(File questFile, EnemyManager manager, AssetManager assetManager) {
+    public void spawnEnemiesForQuest(File questFile, EnemyManager manager, 
+            AssetManager assetManager, SwordEntity player) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(questFile));
             SwordEntityFactory factory = new SwordEntityFactory(assetManager);
@@ -202,6 +205,16 @@ public class WorldBuilder {
                         entity = factory.makeGuardEnemy();
                         entity.setX(x);
                         entity.setY(y);
+                        ((GuardEntity)entity).givePlayer(player);
+                        manager.saveEnemy(sceneX, sceneY, entity);
+                        System.out.println("added a guard to the scene");
+                    } else if (enemyType.equals("WHITE_GHOST")) {
+                        // the parent is added in later when the player actually enters into the 
+                        // scene and they're added to the world
+                        entity = factory.makeWhiteGhostBoss();
+                        entity.setX(x);
+                        entity.setY(y);
+                        ((WhiteGhostEntity)entity).givePlayer(player);
                         manager.saveEnemy(sceneX, sceneY, entity);
                         System.out.println("added a guard to the scene");
                     }
