@@ -1,29 +1,6 @@
-ROW 6
-COL 8
-PLAYER_SPAWN 4 2 200 200
-SCENE 0 0
-BACKGROUND woodsBackgroundRight
-BLOCK 760 560 89 89 I castleWallRightDown
-SCENE 0 1
-BACKGROUND woodsBackgroundLeftRight
-BLOCK 0 560 800 89 I castleWallHorizontal
-SCENE 0 2
-BACKGROUND woodsBackgroundLeftRight
-BLOCK -49 560 89 89 I castleWallLeftDown
-SCENE 0 3
-BACKGROUND woodsBackgroundDownLeftRight
-SCENE 0 4
-BACKGROUND woodsBackgroundLeftRight
-SCENE 0 5
-BACKGROUND woodsBackgroundLeftRight
-SCENE 0 6
-BACKGROUND woodsBackgroundDownLeftRight
-SCENE 0 7
-BACKGROUND woodsBackgroundLeft
-SCENE 1 0
-BACKGROUND woodsBackground
-BLOCK 760 -340 89 600 I castleWallVertical
-BLOCK 760 340 89 600 I castleWallVertical
+ROW 5
+COL 6
+PLAYER_SPAWN 0 4 200 200
 SCENE 1 1
 BACKGROUND wineCellarBackground
 BLOCK 40 -49 720 89 I wineCellarWallHorizontalShort
@@ -35,32 +12,6 @@ BLOCK 760 -49 89 89 I wineCellarWallLeftDown
 BLOCK 760 560 89 89 I wineCellarWallLeftUp
 BLOCK -49 560 89 89 I wineCellarWallUpRight
 BLOCK -49 -49 89 89 I wineCellarWallRightDown
-SCENE 1 2
-BACKGROUND woodsBackgroundRight
-BLOCK 40 560 800 89 I castleWallHorizontal
-BLOCK -49 -40 89 600 I castleWallVertical
-BLOCK -49 560 89 89 I castleWallUpRight
-SCENE 1 3
-BACKGROUND woodsBackgroundUpDownLeft
-BLOCK -49 560 89 89 I castleWallLeftDown
-SCENE 1 4
-BACKGROUND townBackground
-BLOCK 180 250 120 120 I townHouse
-BLOCK 160 540 120 120 I townHouse
-BLOCK 740 525 120 120 I townHouse
-BLOCK 760 150 120 120 I townHouse
-SCENE 1 5
-BLOCK -60 525 120 120 I townHouse
-BLOCK -40 150 120 120 I townHouse
-BLOCK 350 270 120 120 I townHouse
-BACKGROUND townBackground
-SCENE 1 6
-BACKGROUND woodsBackgroundUpDownRight
-SCENE 1 7
-BACKGROUND woodsBackgroundLeft
-SCENE 2 0
-BACKGROUND woodsBackgroundDown
-BLOCK 760 0 89 600 I castleWallVertical
 SCENE 2 1
 BACKGROUND cookRoomBackground
 BLOCK 40 -49 720 89 I castleWallHorizontalShort
@@ -72,75 +23,7 @@ BLOCK 760 -49 89 89 I castleWallLeftDown
 BLOCK 760 560 89 89 I castleWallLeftUp
 BLOCK -49 560 89 89 I castleWallUpRight
 BLOCK -49 -49 89 89 I castleWallRightDown
-SCENE 2 2
-BACKGROUND throneRoomBackground
-BLOCK 40 -49 720 89 I castleWallHorizontalShort
-BLOCK 720 40 89 520 I castleWallVerticalShort
-BLOCK 40 560 320 89 I castleWallHorizontalVeryShort
-BLOCK 440 560 320 89 I castleWallHorizontalVeryShort
-BLOCK -49 40 89 220 I castleWallVerticalVeryShort
-BLOCK -49 340 89 220 I castleWallVerticalVeryShort
-BLOCK 760 -49 89 89 I castleWallLeftDown
-BLOCK 760 560 89 89 I castleWallLeftUp
-BLOCK -49 560 89 89 I castleWallUpRight
-BLOCK -49 -49 89 89 I castleWallRightDown
-SCENE 2 3
-BACKGROUND woodsBackgroundUpDown
-BLOCK -49 0 89 600 I castleWallVertical
-SCENE 2 4
-BACKGROUND townBackground
-BLOCK 740 -75 120 120 I townHouse
-BLOCK 80 360 120 120 I townHouse
-BLOCK 340 360 120 120 I townHouse
-BLOCK 160 -60 120 120 I townHouse
-SCENE 2 5
-BACKGROUND townBackground
-BLOCK -60 -75 120 120 I townHouse
-BLOCK 440 290 120 120 I townHouse
-SCENE 2 6
-BACKGROUND woodsBackgroundUpDown
-SCENE 2 7
-BACKGROUND woodsBackgroundDown
-SCENE 3 0
-BACKGROUND woodsBackgroundUpDownRight
-BLOCK 760 -49 89 89 I castleWallUpRight
-SCENE 3 1
-BACKGROUND woodsBackgroundLeftRight
-BLOCK 0 -49 800 89 I castleWallHorizontal
-SCENE 3 2
-BACKGROUND woodsBackgroundDownLeftRight
-BLOCK -440 -49 800 89 I castleWallHorizontal
-BLOCK 440 -49 800 89 I castleWallHorizontal
 SCENE 3 3
-BACKGROUND woodsBackgroundUpDownLeftRight
-BLOCK 760 560 89 89 I churchWallRightDown
-BLOCK -49 -49 89 89 I castleWallLeftUp
-SCENE 3 4
-BLOCK 0 560 800 89 I churchWallHorizontal
-BACKGROUND woodsBackground
-SCENE 3 5
-BACKGROUND woodsBackgroundRight
-BLOCK -49 560 89 89 I churchWallLeftDown
-SCENE 3 6
-BACKGROUND woodsBackgroundUpDownLeftRight
-BLOCK 760 560 89 89 I creepyCastleWallRightDown
-SCENE 3 7
-BACKGROUND woodsBackgroundUpLeft
-BLOCK 0 560 800 89 I creepyCastleWallHorizontal
-SCENE 4 0
-BACKGROUND woodsBackgroundUpDownRight
-BLOCK 760 560 90 90 I gardenWallRightDown
-SCENE 4 1
-BACKGROUND woodsBackgroundRight
-BLOCK -440 560 90 800 I gardenWallHorizontal
-BLOCK 440 560 90 800 I gardenWallHorizontal
-SCENE 4 2
-BACKGROUND woodsBackgroundUp
-BLOCK -49 560 90 90 I gardenWallLeftDown
-SCENE 4 3
-BACKGROUND woodsBackgroundUp
-BLOCK 760 0 89 600 I churchWallVertical
-SCENE 4 4
 BACKGROUND churchBackground
 BLOCK 332 221 140 131 I churchBell
 BLOCK 40 -49 720 89 I churchWallHorizontalShort
@@ -152,14 +35,7 @@ BLOCK 760 -49 89 89 I churchWallLeftDown
 BLOCK 760 560 89 89 I churchWallLeftUp
 BLOCK -49 560 89 89 I churchWallUpRight
 BLOCK -49 -49 89 89 I churchWallRightDown
-SCENE 4 5
-BACKGROUND woodsBackground
-BLOCK -49 0 89 600 I churchWallVertical
-SCENE 4 6
-BACKGROUND woodsBackgroundUpDown
-BLOCK 760 -340 89 600 I creepyCastleWallVertical
-BLOCK 760 340 89 600 I creepyCastleWallVertical
-SCENE 4 7
+SCENE 2 5
 BACKGROUND creepyCastleBackground
 BLOCK 40 -49 720 89 I creepyCastleWallHorizontalShort
 BLOCK -49 40 89 220 I creepyCastleWallVerticalVeryShort
@@ -170,10 +46,7 @@ BLOCK 760 -49 89 89 I creepyCastleWallLeftDown
 BLOCK 760 560 89 89 I creepyCastleWallLeftUp
 BLOCK -49 560 89 89 I creepyCastleWallUpRight
 BLOCK -49 -49 89 89 I creepyCastleWallRightDown
-SCENE 5 0
-BACKGROUND woodsBackgroundUp
-BLOCK 760 0 90 600 I gardenWallVertical
-SCENE 5 1
+SCENE 4 0
 BACKGROUND gardenBackground
 BLOCK 40 560 720 89 I gardenWallHorizontalShort
 BLOCK -49 40 89 520 I gardenWallVerticalShort
@@ -184,22 +57,70 @@ BLOCK 760 -49 89 89 I gardenWallLeftDown
 BLOCK 760 560 89 89 I gardenWallLeftUp
 BLOCK -49 560 89 89 I gardenWallUpRight
 BLOCK -49 -49 89 89 I gardenWallRightDown
-SCENE 5 2
+SCENE 0 0
 BACKGROUND woodsBackgroundRight
-BLOCK -50 0 90 600 I gardenWallVertical
-SCENE 5 3
-BACKGROUND woodsBackgroundLeft
-BLOCK 760 -49 89 89 I churchWallUpRight
-SCENE 5 4
-BACKGROUND woodsBackgroundUpRight
-BLOCK -440 -49 800 89 I churchWallHorizontal
-BLOCK 440 -49 800 89 I churchWallHorizontal
-SCENE 5 5
+BLOCK 760 560 90 90 I castleWallRightDown
+SCENE 0 1
 BACKGROUND woodsBackgroundLeftRight
-BLOCK -49 -49 89 89 I churchWallLeftUp
-SCENE 5 6
-BACKGROUND woodsBackgroundUpLeftRight
-BLOCK 760 -49 89 89 I creepyCastleWallUpRight
-SCENE 5 7
+BLOCK 0 560 800 89 I castleWallHorizontal
+SCENE 0 2
+BACKGROUND woodsBackgroundDownLeftRight
+BLOCK -45 560 90 90 I castleWallLeftDown
+SCENE 0 3
+BACKGROUND townBackground
+SCENE 0 4
+BACKGROUND townBackground
+SCENE 0 5
+BACKGROUND woodsBackground
+SCENE 1 0
+BACKGROUND woodsBackgroundDown
+BLOCK 760 -340 89 600 I castleWallVertical
+BLOCK 760 340 90 600 I castleWallVertical
+SCENE 1 2
+BACKGROUND woodsBackgroundUpDownRight
+BLOCK -49 0 89 600 I castleWallVertical
+SCENE 1 3
+BACKGROUND woodsBackgroundDownLeftRight
+SCENE 1 4
+BACKGROUND woodsBackgroundLeftRight
+BLOCK 760 560 90 90 I creepyCastleWallRightDown
+SCENE 1 5
 BACKGROUND woodsBackgroundLeft
-BLOCK 0 -49 800 89 I creepyCastleWallHorizontal
+BLOCK 0 760 800 89 I creepyCastleWallHorizontal
+SCENE 2 0
+BACKGROUND woodsBackgroundUpDown
+BLOCK 760 0 89 600 I castleWallVertical
+SCENE 2 2
+BACKGROUND woodsBackgroundUpDownLeftRight
+BLOCK -49 -340 89 600 I castleWallVertical
+BLOCK -49 340 90 600 I castleWallVertical
+SCENE 2 3
+BACKGROUND woodsBackgroundUpLeftRight
+SCENE 2 4
+BACKGROUND woodsBackgroundLeftRight
+BLOCK 760 -340 89 600 I creepyCastleWallVertical
+BLOCK 760 340 90 600 I creepyCastleWallVertical
+SCENE 3 0
+BACKGROUND woodsBackgroundUpDownRight
+BLOCK -440 560 800 89 I gardenWallHorizontal
+BLOCK 440 560 800 89 I gardenWallHorizontal
+SCENE 3 1
+BACKGROUND woodsBackgroundLeftRight
+BLOCK -45 560 90 90 I gardenWallLeftDown
+SCENE 3 2
+BACKGROUND woodsBackgroundUpDownLeft
+SCENE 3 4
+BACKGROUND woodsBackgroundDown
+SCENE 3 5
+BACKGROUND woodsBackground
+SCENE 4 1
+BACKGROUND woodsBackgroundRight
+BLOCK -49 0 89 600 I gardenWallVertical
+SCENE 4 2
+BACKGROUND woodsBackgroundUpLeftRight
+SCENE 4 3
+BACKGROUND woodsBackgroundUpLeftRight
+SCENE 4 4
+BACKGROUND woodsBackgroundUpLeftRight
+SCENE 4 5
+BACKGROUND woodsBackgroundLeft
