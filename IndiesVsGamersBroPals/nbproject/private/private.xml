@@ -2,6 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/Pants/Documents/GitHub/IndiesVsGamers/IndiesVsGamersBroPals/src/indiesvsgamersbropals/entity/enem/GuardEntity.java</file>
+            <file>file:/C:/Users/Pants/Documents/GitHub/IndiesVsGamers/IndiesVsGamersBroPals/src/indiesvsgamersbropals/entity/enem/WhiteGhostEntity.java</file>
+            <file>file:/C:/Users/Pants/Documents/GitHub/IndiesVsGamers/IndiesVsGamersBroPals/src/indiesvsgamersbropals/entity/SwordEntityComponent.java</file>
+            <file>file:/C:/Users/Pants/Documents/GitHub/IndiesVsGamers/IndiesVsGamersBroPals/src/indiesvsgamersbropals/entity/SwordEntityFactory.java</file>
+            <file>file:/C:/Users/Pants/Documents/GitHub/IndiesVsGamers/IndiesVsGamersBroPals/src/indiesvsgamersbropals/entity/SwordEntity.java</file>
+            <file>file:/C:/Users/Pants/Documents/GitHub/IndiesVsGamers/IndiesVsGamersBroPals/src/indiesvsgamersbropals/PlayState.java</file>
+            <file>file:/C:/Users/Pants/Documents/GitHub/IndiesVsGamers/IndiesVsGamersBroPals/src/indiesvsgamersbropals/WorldBuilder.java</file>
+        </group>
+>>>>>>> 729111727a6019c37c1c890b9bf618c1b3d146e7
     </open-files>
 </project-private>

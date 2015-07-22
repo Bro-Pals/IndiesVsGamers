@@ -7,7 +7,6 @@ package indiesvsgamersbropals.entity;
 
 import bropals.lib.simplegame.entity.BaseEntity;
 import bropals.lib.simplegame.entity.GameWorld;
-import bropals.lib.simplegame.entity.block.BlockEntity;
 import bropals.lib.simplegame.math.Vector2D;
 import bropals.lib.simplegame.util.Counter;
 import bropals.lib.simplegame.util.CounterFunction;
@@ -17,7 +16,12 @@ import bropals.lib.simplegame.util.CounterFunction;
  * @author Kevin
  */
 public class SwordEntity extends BaseEntity implements CounterFunction {
-        
+    
+    /**
+     * A reference to the player (for enemies)
+     */
+    private SwordEntity player;
+    
     /** 
         parents of the body
     */
@@ -60,7 +64,7 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
             part.setParentEntity(this);
         }
         this.health = 1;
-        this.speed = 10;
+        this.speed = 7;
         this.damaged = false;
         direction = new Vector2D();
         goldMod = 0; // no modifier
@@ -78,6 +82,8 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
             return;
         }
         
+        damaged = false;
+        
         if (knockbackTime != null) {
             knockbackTime.update();
             //System.out.println("udpating the knockback");
@@ -89,23 +95,38 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
         
         if (knockbackDirection != null) {
             //System.out.println("WE ARE ADDING KNOCKBACK");
-            parts[0].getVelocity().setValues(
-                    parts[0].getVelocity().getX() + knockbackDirection.getX(),
-                    parts[0].getVelocity().getY() + knockbackDirection.getY());
+            if (knockbackDirection.getX() != 0) {
+                parts[0].getVelocity().setX(knockbackDirection.getX());
+            }
+            if (knockbackDirection.getY() != 0) {
+                parts[0].getVelocity().setY(knockbackDirection.getY());
+            }
+        }
+        
+        if (parts[0].getVelocity().getX() == 0 && 
+                parts[0].getVelocity().getY() == 0) {
+            parts[0].getAnimation().setTrack(0);
+        } else {
+            parts[0].getAnimation().setTrack(1);
+        }
+        
+        // check weapon collisions first
+        for (int k=1; k<parts.length; k++) {
+            parts[k].checkCollisions();
         }
         
         if (parts[0].getParent() != null) {
             parts[0].update(i);
         }
-            
-        for (int k=1; k<parts.length; k++) {
-            parts[k].checkCollisions();
-        }
     }
     
     public void damage(int amount) {
+        if (damaged) {
+            return;
+        }
         System.out.println("before health " + health);
         health = health - amount;
+        damaged = true;
         System.out.println("amount: " + amount);
         System.out.println("health " + health);
     }
@@ -161,10 +182,13 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
     @Override
     public void setParent(GameWorld parent) {
         for (SwordEntityComponent part : parts) {
-            part.setParent(parent);
             if (parent != null) {
                 parent.addEntity(part);
+            } else {
+                // remove parts if the parent is being set to null
+                part.getParent().getEntities().remove(part);
             }
+            part.setParent(parent);
         }
         super.setParent(parent);
     }
@@ -182,9 +206,18 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
     }
     
     
+    /**
+     * Makes knockback in an entity-specific direction.
+     * @param amount How much the entity is knocked back
+     * @param duration how long the knockback lasts
+     */
+    public void knockbackCreate(float amount, int duration) {
+        knockback(new Vector2D(-amount, 0), duration);
+    }
     
-    public void knockback(Vector2D direction, int duration) {
-        knockbackDirection = direction;
+    public void knockback(Vector2D knockbackForce, int duration) {
+        damaged = true; // knockback counts as being hits
+        knockbackDirection = knockbackForce;
         knockbackTime = new Counter(duration, this);
         knockbackTime.reset();
     }
@@ -195,7 +228,28 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
         knockbackDirection = null;
         knockbackTime = null;
     }
+
+    public int getHealth() {
+        return health;
+    }
     
+    public SwordEntityComponent getFirstWeapon() {
+        return parts[1];
+    }
     
+    public SwordEntityComponent getBody() {
+        return parts[0];
+    }
+    
+    public void givePlayer(SwordEntity player) {
+        this.player = player;
+    }
+    
+    /**
+     * Get the player reference given to this entity.
+     */
+    public SwordEntity getPlayer() {
+        return player;
+    }
     
 }

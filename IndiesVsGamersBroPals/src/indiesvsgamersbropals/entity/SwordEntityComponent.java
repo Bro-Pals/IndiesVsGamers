@@ -20,6 +20,7 @@ public class SwordEntityComponent extends TexturedBlock {
     private int damage;
     private SwordEntity parentEntity;
     private float localX, localY;
+    private boolean enabled;
     
     /**
      * Create a new entity componenent, a part of a sword entity
@@ -36,6 +37,7 @@ public class SwordEntityComponent extends TexturedBlock {
         this.isSword = false;
         localX = x;
         localY = y;
+        enabled = true;
     }
     
     public void makeASword(int dmg) {
@@ -44,12 +46,30 @@ public class SwordEntityComponent extends TexturedBlock {
     }
 
     @Override
+    public void render(Object graphicsObj) {
+        if (!enabled) {
+            return;
+        }
+        super.render(graphicsObj); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void update(int mills) {
+        if (!enabled) {
+            return;
+        }
+        super.update(mills); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    @Override
     public void collideWith(BlockEntity other) {
         if (other instanceof SwordEntityComponent) {
             SwordEntityComponent otherComp = (SwordEntityComponent)other;
-            if (otherComp.getParentEntity().getParent() == null ||
+            if (!isEnabled() || !otherComp.isEnabled() || 
+                    otherComp.getParentEntity().getParent() == null ||
                     otherComp.getParentEntity().getParent() != getParent() ||
-                    getParent() == null) {
+                    getParent() == null || otherComp.getParentEntity().getHealth() <= 0) {
                 // can't be hurt by something in a different world or with no parent
                 return;
             }
@@ -58,15 +78,10 @@ public class SwordEntityComponent extends TexturedBlock {
                 if (this.isSword) {
                     // make knockback
                     System.out.println("KNOCKBACK");
-                    float diffX = otherComp.getCenterX() - getCenterX();
-//                    float diffY = otherComp.getCenterY() - getCenterY();
-                    /// always get pushed back
-                    float direction = (diffX / Math.abs(diffX));
-                    Vector2D knockbackVector = new Vector2D(direction * 18 * -1, 0);
                     int knockbackDuration = 80;
-                    //getParentEntity().knockback(knockbackVector, knockbackDuration);
-                    //knockbackVector.scaleLocal(-1); // opposite direction
-                    otherComp.getParentEntity().knockback(knockbackVector, knockbackDuration);
+                    float knockbackAmount = 18;
+                    otherComp.getParentEntity().knockbackCreate(knockbackAmount, knockbackDuration);
+                    getParentEntity().knockbackCreate(knockbackAmount, knockbackDuration);
                 } else {
                     //System.out.println("DAMAGE");
                     parentEntity.damage(otherComp.getDamage()); // swords do 1 damage to body
@@ -142,5 +157,15 @@ public class SwordEntityComponent extends TexturedBlock {
         //local coordinates
         return localY;
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+    
 
 }

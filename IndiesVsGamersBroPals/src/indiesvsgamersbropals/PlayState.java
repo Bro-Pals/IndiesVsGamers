@@ -135,9 +135,16 @@ public class PlayState extends GameState {
             }
         }
         
+        // player gets precedence over everything
+        player.update(i);
+        
         // update the entities
         for (int h=0; h< world.getEntities().size(); h++) {
             BaseEntity ent = world.getEntities().get(h);
+            // player has already updated
+            if (ent == player) {
+                continue;
+            }
 //            if (ent.getParent() != world || ent.getParent() == null) {
 //                continue;
 //            }
@@ -327,7 +334,8 @@ public class PlayState extends GameState {
      */
     private void loadQuest(int questNumber) {
         questOn = questNumber;
-        builder.spawnEnemiesForQuest(new File(QUESTS_FILES[questOn]), enemyManager, getAssetManager());
+        builder.spawnEnemiesForQuest(new File(QUESTS_FILES[questOn]), enemyManager,
+                getAssetManager(), player);
     }
     
     private String getTimePassedString() {
