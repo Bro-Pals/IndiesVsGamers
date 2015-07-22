@@ -17,6 +17,7 @@ import indiesvsgamersbropals.entity.HazardBlock;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityFactory;
 import indiesvsgamersbropals.entity.enem.GuardEntity;
+import indiesvsgamersbropals.entity.enem.KnightDownEntity;
 import indiesvsgamersbropals.entity.enem.WhiteGhostEntity;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -62,8 +63,8 @@ public class WorldBuilder {
                     worldHeight = Integer.parseInt(tokens[1]);
                 } else if (input.startsWith("PLAYER_SPAWN")){
                     String[] tokens = input.split(" ");
-                    spawnSceneY = Integer.parseInt(tokens[1]);
-                    spawnSceneX = Integer.parseInt(tokens[2]);
+                    spawnSceneX = Integer.parseInt(tokens[1]);
+                    spawnSceneY = Integer.parseInt(tokens[2]);
                     spawnPosX = Integer.parseInt(tokens[3]);
                     spawnPosY = Integer.parseInt(tokens[4]);
                 }
@@ -200,26 +201,30 @@ public class WorldBuilder {
                     // add it to the enemy manager
                     SwordEntity entity = null;
                     if (enemyType.equals("GUARD")) {
-                        // the parent is added in later when the player actually enters into the 
-                        // scene and they're added to the world
-                        entity = factory.makeGuardEnemy();
-                        entity.setX(x);
-                        entity.setY(y);
-                        ((GuardEntity)entity).givePlayer(player);
-                        manager.saveEnemy(sceneX, sceneY, entity);
+                        entity = factory.makeGuardEnemy(x, y);
                         System.out.println("added a guard to the scene");
+                    } else if (enemyType.equals("KNIGHT_D")) {
+                        entity = factory.makeKnightDownEnemy(x, y);
+                        System.out.println("added a knight facing down to the scene");
+                    } else if (enemyType.equals("KNIGHT_U")) {
+                        entity = factory.makeKnightUpEnemy(x, y);
+                        System.out.println("added a knight facing up to the scene");
+                    } else if (enemyType.equals("ROGUE")) {
+                        entity = factory.makeRogueEnemy(x, y);
+                        System.out.println("added a rogue to the scene");
                     } else if (enemyType.equals("WHITE_GHOST")) {
-                        // the parent is added in later when the player actually enters into the 
-                        // scene and they're added to the world
-                        entity = factory.makeWhiteGhostBoss();
-                        entity.setX(x);
-                        entity.setY(y);
-                        ((WhiteGhostEntity)entity).givePlayer(player);
-                        manager.saveEnemy(sceneX, sceneY, entity);
-                        System.out.println("added a guard to the scene");
+                        entity = factory.makeWhiteGhostBoss(x, y);
+                        System.out.println("added a white ghost to the scene");
                     }
                     
-                    // set up the goal
+                    if (entity != null) {
+                        // give the enemy the reference to the player
+                        // and save them to the enemy manager
+                        entity.givePlayer(player);
+                        manager.saveEnemy(sceneX, sceneY, entity);
+                    }
+                    
+                    // set up the goal if this enemy was the goal
                     if (entity != null && input.startsWith("SPAWN_GOAL")) {
                         goalSceneX = sceneX;
                         goalSceneY = sceneY;

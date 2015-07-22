@@ -48,8 +48,8 @@ public class SwordEntityFactory {
         return new SwordEntity(body, sword);
     }
     
-    public SwordEntity makeGuardEnemy() {
-        SwordEntityComponent body = new SwordEntityComponent(0, 0, 42, 50);
+    public SwordEntity makeGuardEnemy(float x, float y) {
+        SwordEntityComponent body = new SwordEntityComponent(x, y, 42, 50);
         Animation anim = new Animation();
         BufferedImage[] frames = (new Track(manager.getImage("guard"), 42, 50)).getImages();
         anim.addTrack(new Track(new BufferedImage[]{frames[0]}, 1000)); // idle animation
@@ -66,8 +66,8 @@ public class SwordEntityFactory {
         return enemy;
     }
     
-    public SwordEntity makeKnightDownEnemy() {
-        SwordEntityComponent body = new SwordEntityComponent(0, 0, 42, 50);
+    public SwordEntity makeKnightDownEnemy(float x, float y) {
+        SwordEntityComponent body = new SwordEntityComponent(x, y, 42, 50);
         Animation anim = new Animation();
         BufferedImage[] frames = (new Track(manager.getImage("knightDown"), 42, 50)).getImages();
         anim.addTrack(new Track(new BufferedImage[]{frames[0]}, 1000)); // idle animation
@@ -76,7 +76,7 @@ public class SwordEntityFactory {
         anim.setTrack(0);
         anim.getTrackOn().setMillisBetweenImages(110);
         body.setAnimation(anim);
-        SwordEntityComponent[] sword = {new SwordEntityComponent(8, 50, 15, 30)};
+        SwordEntityComponent[] sword = {new SwordEntityComponent(-1, 50, 15, 30)};
         sword[0].makeASword(1);
         sword[0].setImage(manager.getImage("knightDownWeapon"));
         KnightDownEntity enemy = new KnightDownEntity(body, sword);
@@ -84,8 +84,8 @@ public class SwordEntityFactory {
         return enemy;
     }
     
-    public SwordEntity makeKnightUpEnemy() {
-        SwordEntityComponent body = new SwordEntityComponent(0, 0, 42, 50);
+    public SwordEntity makeKnightUpEnemy(float x, float y) {
+        SwordEntityComponent body = new SwordEntityComponent(x, y, 42, 50);
         Animation anim = new Animation();
         BufferedImage[] frames = (new Track(manager.getImage("knightUp"), 42, 50)).getImages();
         anim.addTrack(new Track(new BufferedImage[]{frames[0]}, 1000)); // idle animation
@@ -94,7 +94,7 @@ public class SwordEntityFactory {
         anim.setTrack(0);
         anim.getTrackOn().setMillisBetweenImages(110);
         body.setAnimation(anim);
-        SwordEntityComponent[] sword = {new SwordEntityComponent(8, -30, 15, 30)};
+        SwordEntityComponent[] sword = {new SwordEntityComponent(-2, -30, 15, 30)};
         sword[0].makeASword(1);
         sword[0].setImage(manager.getImage("knightUpWeapon"));
         KnightUpEntity enemy = new KnightUpEntity(body, sword);
@@ -102,26 +102,26 @@ public class SwordEntityFactory {
         return enemy;
     }
     
-    public SwordEntity makeRogueEnemy() {
-        SwordEntityComponent body = new SwordEntityComponent(0, 0, 42, 50);
+    public SwordEntity makeRogueEnemy(float x, float y) {
+        SwordEntityComponent body = new SwordEntityComponent(x, y, 42, 40);
         Animation anim = new Animation();
-        BufferedImage[] frames = (new Track(manager.getImage("rogue"), 42, 50)).getImages();
+        BufferedImage[] frames = (new Track(manager.getImage("rouge"), 42, 40)).getImages();
         anim.addTrack(new Track(new BufferedImage[]{frames[0]}, 1000)); // idle animation
         anim.addTrack(new Track(
                 new BufferedImage[]{frames[0], frames[1], frames[2], frames[1]}));
         anim.setTrack(0);
         anim.getTrackOn().setMillisBetweenImages(110);
         body.setAnimation(anim);
-        SwordEntityComponent[] sword = {new SwordEntityComponent(42, 15, 30, 15)};
+        SwordEntityComponent[] sword = {new SwordEntityComponent(42, 2, 30, 15)};
         sword[0].makeASword(1);
-        sword[0].setImage(manager.getImage("rogueWeapon"));
+        sword[0].setImage(manager.getImage("rougeWeapon"));
         RogueEntity enemy = new RogueEntity(body, sword);
         enemy.setGoldMod(15);
         return enemy;
     }
     
-    public SwordEntity makeWhiteGhostBoss() {
-        SwordEntityComponent body = new SwordEntityComponent(0, 0, 60, 60);
+    public SwordEntity makeWhiteGhostBoss(float x, float y) {
+        SwordEntityComponent body = new SwordEntityComponent(x, y, 60, 60);
         Animation anim = new Animation();
         anim.addTrack(new Track(manager.getImage("whiteGhostIdle"), 60, 60, 300)); // 0
         anim.addTrack(new Track(manager.getImage("whiteGhostPopOut"), 60, 60, 300)); // 1

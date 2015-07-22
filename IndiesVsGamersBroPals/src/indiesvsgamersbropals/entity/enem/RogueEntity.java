@@ -6,6 +6,7 @@
 
 package indiesvsgamersbropals.entity.enem;
 
+import bropals.lib.simplegame.math.Vector2D;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityComponent;
 
@@ -15,16 +16,17 @@ import indiesvsgamersbropals.entity.SwordEntityComponent;
  */
 public class RogueEntity extends SwordEntity {
 
-    private SwordEntity player;
-    
     public RogueEntity(SwordEntityComponent body, 
             SwordEntityComponent[] swords) {
         super(body, swords);
     }
     
-    public void givePlayer(SwordEntity player) {
-        this.player = player;
+    @Override
+    public void update(int i) {
+        // Try to move above the player and charge down
+        
+        super.update(i);
     }
-
+    
 
 }

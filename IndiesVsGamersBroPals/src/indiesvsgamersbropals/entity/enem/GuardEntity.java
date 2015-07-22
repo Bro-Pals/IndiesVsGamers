@@ -6,6 +6,7 @@
 
 package indiesvsgamersbropals.entity.enem;
 
+import bropals.lib.simplegame.math.Vector2D;
 import indiesvsgamersbropals.entity.SwordEntity;
 import indiesvsgamersbropals.entity.SwordEntityComponent;
 
@@ -14,20 +15,21 @@ import indiesvsgamersbropals.entity.SwordEntityComponent;
  * @author Kevin
  */
 public class GuardEntity extends SwordEntity {
-
-    private SwordEntity player;
     
     public GuardEntity(SwordEntityComponent body, 
             SwordEntityComponent[] swords) {
         super(body, swords);
     }
-    
-    public void givePlayer(SwordEntity player) {
-        this.player = player;
+
+    @Override
+    public void knockbackCreate(float amount, int duration) {
+        knockback(new Vector2D(amount, 0), duration);
     }
     
     @Override
     public void update(int i) {
+        // try to move in front of the player and charge
+        SwordEntity player = getPlayer();
         if (player != null) {
             boolean isInFront = getX() > player.getX() + player.getWidth() + 60; // padding
             // different of the left side of the guard compared to the right side of the player

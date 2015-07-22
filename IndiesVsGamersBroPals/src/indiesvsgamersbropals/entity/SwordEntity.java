@@ -16,7 +16,12 @@ import bropals.lib.simplegame.util.CounterFunction;
  * @author Kevin
  */
 public class SwordEntity extends BaseEntity implements CounterFunction {
-        
+    
+    /**
+     * A reference to the player (for enemies)
+     */
+    private SwordEntity player;
+    
     /** 
         parents of the body
     */
@@ -201,10 +206,18 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
     }
     
     
+    /**
+     * Makes knockback in an entity-specific direction.
+     * @param amount How much the entity is knocked back
+     * @param duration how long the knockback lasts
+     */
+    public void knockbackCreate(float amount, int duration) {
+        knockback(new Vector2D(-amount, 0), duration);
+    }
     
-    public void knockback(Vector2D direction, int duration) {
+    public void knockback(Vector2D knockbackForce, int duration) {
         damaged = true; // knockback counts as being hits
-        knockbackDirection = direction;
+        knockbackDirection = knockbackForce;
         knockbackTime = new Counter(duration, this);
         knockbackTime.reset();
     }
@@ -226,6 +239,17 @@ public class SwordEntity extends BaseEntity implements CounterFunction {
     
     public SwordEntityComponent getBody() {
         return parts[0];
+    }
+    
+    public void givePlayer(SwordEntity player) {
+        this.player = player;
+    }
+    
+    /**
+     * Get the player reference given to this entity.
+     */
+    public SwordEntity getPlayer() {
+        return player;
     }
     
 }
